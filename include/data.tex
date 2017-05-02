@@ -1,7 +1,25 @@
-\subsection{Analysis}
+Before we proceed to the actual data processing, let us first give a brief
+introduction to the data set we consider, which is the Google cluster-usage
+traces \cite{reiss2011}. The traces were collected over 29 days in May 2011.
+
+The resource-usage table of the tasks is provided in the form of 500 archives.
+Each archive contains a single \up{CSV} file, which, in turn, contains
+performance measurements over a certain time window. Such a format is rather in
+convenient given the way the data are supposed to be queried at the learning
+stage. For instance, in order to find all the data points that belong to a
+particular task, one has to search, in principle, in all the archives. Such a
+querying strategy is not practical as reading data is a core operation, which
+has to be undertaken millions of times during a learning session. The situation
+is exacerbated even further when multiple learning sessions are to be performed,
+which is the most common scenario in practice. All in all, an efficient
+data-processing pipeline is needed, which is what we shall develop in this
+section.
 
 \subsection{Grouping}
+She sells seashells on the seashore.
 
 \subsection{Indexing}
+She sells seashells on the seashore.
 
 \subsection{Selection}
+She sells seashells on the seashore.
