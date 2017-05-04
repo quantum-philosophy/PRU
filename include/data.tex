@@ -1,6 +1,17 @@
-Before we proceed to the actual data processing, let us first give a brief
-introduction to the data set we consider, which is the Google cluster-usage
-traces \cite{reiss2011}. The traces were collected over 29 days in May 2011.
+Before we proceed to the data processing, let us first give a brief introduction
+to the data set that we consider, which is the Google cluster-usage traces
+\cite{reiss2011}. The traces were collected over 29 days in May 2011 and
+encompass more than 12 thousand machines serving requests from more than 900
+users.
+
+In the data set's parlance, a user request is a job, and a job comprises one or
+several tasks, and a task is a Linux program to be run on a single machine.
+Apart from other data, the data set contains the so-called resource-usage table.
+The table keeps track of the resource usage of the tasks with the sampling
+interval of five minutes. Specifically, the average and maximum values of the
+CPU, memory, and disk usage are provided. Each record corresponds to a
+particular task over a particular five-minute interval, and there are more than
+1.2 billion records corresponding to more than 24 million tasks.
 
 The resource-usage table of the tasks is provided in the form of 500 archives.
 Each archive contains a single \up{CSV} file, which, in turn, contains
