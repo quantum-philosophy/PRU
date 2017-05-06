@@ -1,6 +1,6 @@
-Before we proceed to the data processing, let us first give a brief introduction
-to the data set that we consider, which is the Google cluster-usage traces
-\cite{reiss2011}. The traces were collected over 29 days in May 2011 and
+Before we describe the data-processing stage, let us first give a brief
+introduction to the data set that we consider, which is the Google cluster-usage
+traces \cite{reiss2011}. The traces were collected over 29 days in May 2011 and
 encompass more than 12 thousand machines serving requests from more than 900
 users.
 
@@ -27,7 +27,7 @@ scenario in practice. All in all, an efficient data-processing pipeline is
 needed, which is what we shall develop in this section.
 
 \subsection{Grouping} \slab{grouping}
-At the first stage, the \up{CSV} data from the 500 archives are distributed into
+At the first step, the \up{CSV} data from the 500 archives are distributed into
 separate \up{CSV} files so that each such file contains all the data points that
 belong to a particular job, resulting in as many \up{CSV} files as there are
 jobs. In order to reduce the space requirements, only the used columns of the
@@ -46,22 +46,22 @@ has to be able to select only those data points that belong to a particular
 task, and the resulting data points have to be ordered chronologically.
 
 \subsection{Indexing} \slab{indexing}
-At the second stage, an index of the traces is created in order to be able to
+At the second step, an index of the traces is created in order to be able to
 efficiently navigate the catalog of the SQLite databases created at the previous
-stage. Each record in the index contains metadata about a single task, the most
+step. Each record in the index contains metadata about a single task, the most
 important of which are the task ID and the path to the corresponding SQLite
 database. We also include the length of the trace in question into the index in
 order to be able to efficiently filter the traces by their lengths at a later
-stage. The format of the index has been chosen to be \up{CSV}, which is
+step. The format of the index has been chosen to be \up{CSV}, which is
 sufficient in this case, but it can be turned into SQLite if one wishes to store
 and subsequently queried more sophisticated metadata than ours.
 
 \subsection{Selection}
 \input{include/assets/figures/histogram}
-At the last stage of our data-processing pipeline, a subset of the
-resource-usage traces is selected according to the needs of a learning session
-using the index created at the previous stage and then stored on the disk. Let
-us elaborate on this now.
+At the last step of our data-processing pipeline, a subset of the resource-usage
+traces is selected according to the needs of a learning session using the index
+created at the previous step and then stored on the disk. Let us elaborate on
+this now.
 
 First of all, the traces that are too short or too long are filtered out. The
 upper bound discards anomalies, which constitute a negligibly small portion of
@@ -87,13 +87,14 @@ sequentially, one by one upon request without clogging memory. Instead of
 writing all the selected traces into one TFRecord file, we distribute them
 across several files relying on \up{MD5} for deciding on the destination file in
 a similar way to the one described in \sref{grouping}. Such a catalog of
-TFRecord files is created for each of the training, validation, and testing
-portions of the selected resource-usage data.
+TFRecord files is created for each of the three commonly considered parts
+\cite{hastie2009} of the data at hand: one catalog is for training, one for
+validation, and one for testing.
 
 In conclusion, the benefit of the above pipeline is in the streamlined access to
 the data during one or multiple learning sessions. The TFRecord files can be
 read efficiently as many times as needed, and they can be straightforwardly
 regenerated whenever the selection criteria change; note that the artifacts of
-the procedures in \sref{grouping} and \sref{indexing} do not change. The
+the procedures in \sref{grouping} and \sref{indexing} stay the same. The
 presence of multiple TFRecord files allows also for shuffling the training data
 at the beginning of each epoch.
