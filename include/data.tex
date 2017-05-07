@@ -13,7 +13,8 @@ resource usage of the tasks with the granularity of five minutes. Each record
 corresponds to a specific task and a specific five-minute interval, and it
 provides such metrics as the average and maximum values of the \up{CPU}, memory,
 and disk usage. There are more than 1.2 billion records, which correspond to
-more than 24 million tasks or traces.
+more than 24 million tasks or resource-usage traces and to more than 670
+thousand jobs.
 
 The resource-usage table is provided in the form of 500 archives. Each archive
 contains a single \up{CSV} file with measurements over a certain time window.
@@ -90,6 +91,11 @@ a similar way to the one described in \sref{grouping}. Such a catalog of
 TFRecord files is created for each of the three commonly considered parts
 \cite{hastie2009} of the data at hand: one catalog is for training, one for
 validation, and one for testing.
+
+Lastly, it is common practice to standardize data before feeding them into a
+machine-learning technique \cite{hastie2009}. In our case, it is done along with
+creating the aforementioned three catalogs, which requires a separate pass over
+the training set.
 
 In conclusion, the benefit of the above pipeline is in the streamlined access to
 the data during one or multiple learning sessions. The TFRecord files can be
