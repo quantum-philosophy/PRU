@@ -3,3 +3,35 @@ distributed across the cluster by a resource manager. Each task consumes certain
 resources during its execution; examples include the \up{CPU} and memory usage
 over time. The cluster has an adequate monitoring facility deployed so that the
 resource usage of the tasks is at one's disposal.
+
+The resource-usage trace of task $i$ is defined as a sequence of equally spaced
+$d$-dimensional measurements in time, which we shall represent as the following
+matrix:
+\[
+  \v{x}_i = \left(x_{i0}, \dots, x_{ik}, \dots, x_{i,l_i - 1}\right) \in \real^{l_i \times d}
+\]
+where $x_{ik}$ is the measurement taken at time $t_k$, and $l_i \in \natural$
+denotes the length of the sequence. Such a sequence is called fine-grained data
+as it contains multiple measurements over the execution of the task as opposed
+to having only one aggregative measurement such as the average or maximum value.
+
+Suppose that the current time relative to task $i$ is $t_k$. This means that
+$x_{i0}, \dots, x_{ik}$ are known. Given these previous values of the trace, our
+goal is to estimate its next $h$ values, namely, $x_{i,k + 1}, \dots, x_{i,k +
+h}$. Such an estimation is called a long-range prediction as it provides
+multiple future values as opposed to only one. This operation is to be performed
+for each of the active tasks of interest at any time moment of interest.
+
+In order to attain the objective, we reside to learning from historical data. To
+elaborate, it is first assumed that there is a data set of resource-usage traces
+available, and that these past traces are representative of the future ones. We
+then apply machine learning \cite{hastie2009} to the data in order to construct
+an adequate model and make predictions. We specifically aim at investigating the
+utility of the state-of-the-art in machine learning, namely, deep neural
+networks \cite{goodfellow2016}.
+
+Lastly, in order for learning to be possible, the fine-grained resource-usage
+traces that we consider have to have a certain structure (roughly, not to be
+random), which could be extracted and used for intelligent prediction.
+Investigating the presence of such a structure is part of our objective in this
+work.
