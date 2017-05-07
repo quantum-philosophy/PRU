@@ -1,1 +1,12 @@
-She sells seashells on the seashore.
+The experiments were conducted on a \up{GNU}/Linux machine equipped with 16
+processors Intel Xeon \up{E5520} 2.27~GHz, 24~\up{GB} of \up{RAM}, and an
+\up{HDD}. No \up{GPU}s were utilized.
+
+\subsection{Data Processing}
+The grouping and indexing operations that are described in \sref{grouping} and
+\sref{indexing}, respectively, took approximately 60 hours (no parallelism was
+used internally). Most of this time was spent converting \up{CSV} into SQLite,
+which could have been avoided by working with \up{CSV} directly. However, SQLite
+provided a convenient way for working with the data. Moreover, since these
+operations have to be done only once, their computational cost can be safely
+neglected.
