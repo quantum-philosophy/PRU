@@ -1,12 +1,20 @@
 The experiments were conducted on a \up{GNU}/Linux machine equipped with 16
-processors Intel Xeon \up{E5520} 2.27~GHz, 24~\up{GB} of \up{RAM}, and an
+\up{CPU}s Intel Xeon \up{E5520} 2.27~GHz, 24~\up{GB} of \up{RAM}, and an
 \up{HDD}. No \up{GPU}s were utilized.
 
 \subsection{Data Processing}
-The grouping and indexing operations that are described in \sref{grouping} and
-\sref{indexing}, respectively, took approximately 60 hours (no parallelism was
-used internally). Most of this time was spent converting \up{CSV} into SQLite,
+The grouping and indexing steps of the data-processing pipeline described in
+\sref{grouping} and \sref{indexing}, respectively, took approximately 60 hours
+(sequentially). Most of this time was spent converting \up{CSV} into SQLite,
 which could have been avoided by working with \up{CSV} directly. However, SQLite
 provided a convenient way for working with the data. Moreover, since these
 operations have to be done only once, their computational cost can be safely
 neglected.
+
+The time taken by the selection step described in \sref{selection} depends on
+the number of traces to be processed. For example, selecting one million traces
+took less than three hours. This operation has to be repeated only when the
+selection criteria change, which happens very rarely. In our experiments, we
+kept $l_i \in [5, 50]$ and used only two different sample sizes: $n = 10^6$ and
+$n = 2 \times 10^6$; recall \eref{traces}. Consequently, the selection step had
+to be done only twice.

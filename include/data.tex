@@ -57,20 +57,22 @@ step. The format of the index has been chosen to be \up{CSV}, which is
 sufficient in this case, but it can be turned into SQLite if one wishes to store
 and subsequently queried more sophisticated metadata than ours.
 
-\subsection{Selection}
-\input{include/assets/figures/histogram}
+\subsection{Selection} \slab{selection}
 At the last step of our data-processing pipeline, a subset of the resource-usage
 traces is selected according to the needs of a learning session using the index
 created at the previous step and then stored on the disk. Let us elaborate on
 this now.
 
+\input{include/assets/figures/histogram}
 First of all, the traces that are too short or too long are filtered out. The
-upper bound discards anomalies, which constitute a negligibly small portion of
-the data, while the lower one ensures that there is a sufficient number of data
-points for experimentation. In our experiments, we focus on those traces that
-contain 5--50 data points. In can be seen in the histogram of the traces'
-lengths given in \fref{histogram} that such traces constitute around 74\% of the
-total number of traces (18 million).
+upper bound discards abnormally long traces, which constitute a negligibly small
+portion of the data, while the lower one ensures that there is a sufficient
+number of data points for the subsequent experimentation. In our experiments, we
+focus on those traces that contain 5--50 data points. In other words, we
+consider $l_i \in [5, 50]$; recall \eref{trace}. It can be seen in
+\fref{histogram}, which shows a truncated histogram of the traces' lengths, that
+such traces constitute around 74\% of the total number of traces (around 18 out
+of 24 million).
 
 Second of all, we typically work with a random subset of the filtered traces (as
 described in the above paragraph). It is typically one or two million
@@ -82,18 +84,18 @@ is what we have at our disposal.
 Once the resource-usage traces that will be actually used during a learning
 session are known, they are fetched from the corresponding databases and stored
 in the native format of the machine-learning library at hand. In our case, this
-library is TensorFlow \cite{abadi2015}, and the native format is TFRecord. One
-TFRecord file typically holds multiple records, which will be then read
-sequentially, one by one upon request without clogging memory. Instead of
-writing all the selected traces into one TFRecord file, we distribute them
-across several files relying on \up{MD5} for deciding on the destination file in
-a similar way to the one described in \sref{grouping}. Such a catalog of
-TFRecord files is created for each of the three commonly considered parts
-\cite{hastie2009} of the data at hand: one catalog is for training, one for
-validation, and one for testing.
+library is TensorFlow \cite{abadi2015} (to be discussed in \sref{model}), and
+the native format is TFRecord. One TFRecord file typically holds multiple
+records, which will be then read sequentially, one by one upon request without
+clogging memory. Instead of writing all the selected traces into one TFRecord
+file, we distribute them across several files relying on \up{MD5} for deciding
+on the destination file in a similar way to the one described in
+\sref{grouping}. Such a catalog of TFRecord files is created for each of the
+three commonly considered parts \cite{hastie2009} of the data at hand: one
+catalog is for training, one for validation, and one for testing.
 
 Lastly, it is common practice to standardize data before feeding them into a
-machine-learning technique \cite{hastie2009}. In our case, it is done along with
+machine-learning algorithm \cite{hastie2009}. In our case, it is done along with
 creating the aforementioned three catalogs, which requires a separate pass over
 the training set.
 
@@ -103,4 +105,6 @@ read efficiently as many times as needed, and they can be straightforwardly
 regenerated whenever the selection criteria change; note that the artifacts of
 the procedures in \sref{grouping} and \sref{indexing} stay the same. The
 presence of multiple TFRecord files allows also for shuffling the training data
-at the beginning of each epoch.
+at the beginning of each training epoch.
+
+Now we are ready to make use of the obtained data.
