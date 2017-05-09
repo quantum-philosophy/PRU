@@ -41,8 +41,8 @@ This mechanism gives control over the regularization of the model and is to
 prevent potential overfitting \cite{hastie2009}.
 
 \subsection{Regression Layer}
-The output of the last cell is typically a large matrix, which is proportional
-to the number of units in the cell. Each entry of such a matrix can be
+The output of the last cell is typically a large tensor, which is proportional
+in size to the number of units in the cell. Each entry of such a tensor can be
 considered as a feature that the network has extracted and activated in
 accordance with the trace that is currently being fed into the model. The task
 now is combine these features in order to produce a single prediction. To this
