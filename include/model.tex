@@ -9,7 +9,9 @@ is natural to found our model on the basis of recurrent neural networks
 
 A schematic representation of our model can be seen in \fref{model}; many of the
 actual connections between the model's parts are simplified or not shown at all
-in order to make the figure legible. Let us now we describe each part in detail.
+in order to make the figure legible. In the following subsections, we shall
+describe each part in detail; a number of important operational aspects of the
+model will be covered in the next section, \sref{operation}.
 
 \subsection{Input and Output}
 The input to the model is a single $d$-dimensional data point, which can be seen
@@ -18,12 +20,6 @@ $d$-dimensional data point, which is depicted on the right-hand side of
 \fref{model}. The input $x_{ik}$ is the value of the resource usage of an
 individual task at step $k$, and the output $\hat{x}_{i,k + 1}$ is a
 one-step-ahead prediction of the usage.
-
-In order to have a long-range prediction (multiple steps ahead), we use
-refeeding: the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if
-it was the actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not
-yet known at time step $k$. The process continues until all the desired $h$
-future values are estimated.
 
 \subsection{Recurrent Layers} \slab{recurrent}
 The core of the model is formed by a number of recurrent layers, which are
@@ -54,3 +50,6 @@ end, we mount a regression layer on top of the last cell, which is depicted by a
 red box in \fref{model}. Unlike the recurrent layers described in
 \sref{recurrent}, which features highly nonlinear transformations, this layer
 performs an affine transformation.
+
+To summarize, we have described a predictive model. Let us now discuss how the
+model is supposed to be used.
