@@ -25,12 +25,13 @@ it was the actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not
 yet known at time step $k$. The process continues until all the desired $h$
 future values are estimated.
 
-\subsection{Recurrent Layers}
+\subsection{Recurrent Layers} \slab{recurrent}
 The core of the model is formed by a number of recurrent layers, which are
 represented by a group of blue boxes in \fref{model}. The network can be made as
 many layers deep as needed. Each layer, which is also referred to as a cell, is
 composed of a number of units, which are the smallest processing elements. The
-key characteristic of a unit is that it has internal memory.
+key characteristics of a unit are that it has memory, and that it has access to
+its previous output, which makes it recurrent.
 
 There are different types of units; each one defines how a unit lets data flow
 through it and updates its memory. One notable type is called \up{LSTM}
@@ -40,8 +41,16 @@ as vanishing gradient when training---and it is now one of the most widely used
 types. The recurrent layers of our model are \up{LSTM} cells.
 
 In addition, each cell is enhanced with a dropout mechanism \cite{zaremba2014}.
-This mechanism gives control over the regularization of the model and is there
-to prevent potential overfitting.
+This mechanism gives control over the regularization of the model and is to
+prevent potential overfitting \cite{hastie2009}.
 
-\subsection{Fully Connected Layer}
-She sells seashells on the seashore.
+\subsection{Regression Layer}
+The output of the last cell is typically a large matrix, which is proportional
+to the number of units in the cell. Each entry of such a matrix can be
+considered as a feature that the network has extracted and activated in
+accordance with the trace that is currently being fed into the model. The task
+now is combine these features in order to produce a single prediction. To this
+end, we mount a regression layer on top of the last cell, which is depicted by a
+red box in \fref{model}. Unlike the recurrent layers described in
+\sref{recurrent}, which features highly nonlinear transformations, this layer
+performs an affine transformation.
