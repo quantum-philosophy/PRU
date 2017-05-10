@@ -6,14 +6,14 @@ resource usage of the tasks is at one's disposal.
 
 The resource-usage trace of task $i$ is defined as a sequence of equally spaced
 $d$-dimensional measurements in time, which we shall represent as the following
-matrix:
+tensor of size $l_i \times d$:
 \begin{equation} \elab{trace}
-  x_i = \left(x_{i0}, \dots, x_{ik}, \dots, x_{i,l_i - 1}\right) \in \real^{l_i \times d}
+  x_i = \left(x_{i0}, \dots, x_{ik}, \dots, x_{i,l_i - 1}\right)
 \end{equation}
-where $x_{ik}$ is the measurement taken at time $t_{ik}$, and $l_i \in \natural$
-denotes the length of the sequence. Such a sequence is called fine-grained data
-as it contains multiple measurements over the execution of the task as opposed
-to having only one aggregative measurement such as the average or maximum value.
+where $x_{ik}$ is the measurement taken at time $t_{ik}$, and $l_i$ denotes the
+length of the sequence. Such a sequence is called fine-grained data as it
+contains multiple measurements over the execution of the task as opposed to
+having only one aggregative measurement such as the average or maximum value.
 
 Suppose that the current time relative to task $i$ is $t_{ik}$. This means that
 $x_{i0}, \dots, x_{ik}$ are known. Given these previous values of the trace, our

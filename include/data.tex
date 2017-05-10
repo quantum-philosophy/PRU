@@ -1,6 +1,6 @@
-Before we describe the data-processing stage, let us first give a brief
-introduction to the data set that we consider, which is the Google cluster-usage
-traces \cite{reiss2011}. The traces were collected over 29 days in May 2011 and
+Before we describe our data-processing pipeline, let us first give a brief
+introduction to the data set that we consider, the Google cluster-usage traces
+\cite{reiss2011}. The traces were collected over 29 days in May 2011 and
 encompass more than 12 thousand machines serving requests from more than 900
 users.
 
@@ -28,7 +28,7 @@ scenario in practice. All in all, an efficient data-processing pipeline is
 needed, which is what we shall develop in this section.
 
 \subsection{Grouping} \slab{grouping}
-At the first step, the \up{CSV} data from the 500 archives are distributed into
+At the first stage, the \up{CSV} data from the 500 archives are distributed into
 separate \up{CSV} files so that each such file contains all the data points that
 belong to a particular job, resulting in as many \up{CSV} files as there are
 jobs. In order to reduce the space requirements, only the used columns of the
@@ -47,7 +47,7 @@ has to be able to select only those data points that belong to a particular
 task, and the resulting data points have to be ordered chronologically.
 
 \subsection{Indexing} \slab{indexing}
-At the second step, an index of the traces is created in order to be able to
+At the second stage, an index of the traces is created in order to be able to
 efficiently navigate the catalog of the SQLite databases created at the previous
 step. Each record in the index contains metadata about a single task, the most
 important of which are the task ID and the path to the corresponding SQLite
@@ -58,10 +58,9 @@ sufficient in this case, but it can be turned into SQLite if one wishes to store
 and subsequently queried more sophisticated metadata than ours.
 
 \subsection{Selection} \slab{selection}
-At the last step of our data-processing pipeline, a subset of the resource-usage
-traces is selected according to the needs of a learning session using the index
-created at the previous step and then stored on the disk. Let us elaborate on
-this now.
+At the last stage of our pipeline, a subset of the resource-usage traces is
+selected according to the needs of a learning session using the index created at
+the previous step and then stored on the disk. Let us elaborate on this now.
 
 \input{include/assets/figures/histogram}
 First of all, the traces that are too short or too long are filtered out. The
