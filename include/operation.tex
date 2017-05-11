@@ -39,16 +39,16 @@ emits a tensor of size $b \times l \times d$ to be further consumed by the
 model.
 
 The loss function that is being minimized during training is the mean squared
-error of one-step predictions over the whole batch. The correct prediction for
-the very last time step, which goes beyond the time window of the traces in
-question, is assumed to be zero. To give an example, in \fref{unroll},
-$\hat{x}_{i4}$ has no $x_{i4}$ to be compared with; $x_{i4}$ is assumed to be
-zero.
+error \cite{hastie2009} of one-step predictions over the whole batch. The
+correct prediction for the very last time step, which goes beyond the time
+window of the traces in question, is assumed to be zero. To give an example, in
+\fref{unroll}, $\hat{x}_{i4}$ has no $x_{i4}$ to be compared with; $x_{i4}$ is
+assumed to be zero.
 
 The above workflow has been found to significantly speed up the training
 process and is highly recommended.
 
-\subsection{Validation}
+\subsection{Validation} \slab{validation}
 As it is the case with all nontrivial machine-learning models, the one presented
 in \sref{model} has a number of hyperparameters. Examples include the number of
 cells (recurrent layers), number of units per cell, and probability of dropout.
@@ -60,8 +60,9 @@ carefully configured.
 
 The validation set $X_2$ is used to assess the performance of the model trained
 (using $X_1$ as usual) under different configurations of the model's
-hyperparameters. The trained model that has the best performance on $X_2$ is
-then chosen as the final one.
+hyperparameters. As before, the metric is the mean squared error, and it is
+highly beneficial to perform the computations in batches. The trained model that
+has the best performance on $X_2$ is then chosen as the final one.
 
 Despite all the techniques employed to speed up training, it is still an
 expensive operation. As a result, brute-force search in the space of
@@ -69,16 +70,54 @@ hyperparameters for the best configuration is impractical; a certain intelligent
 strategy should be followed.
 
 In our workflow, we use the Hyperband algorithm \cite{li2016}. Instead of
-adaptively choosing configurations to try---which is the case with other
-techniques---it adaptively allocates resources, such as the number of training
-steps, to configurations chosen at random, which has been shown to be a very
-efficient strategy. In particular, the algorithm allows one to save a lot of
-compute power, which otherwise would be burnt in vain evaluating overtly
-inadequate configurations of hyperparameters.
+adaptively choosing new configurations to evaluate---which is the case with many
+algorithms of this kind---it adaptively allocates resources to configurations
+chosen at random, which has been shown to be a very efficient strategy. In
+particular, the algorithm allows one to save a lot of compute power, which
+otherwise would be burnt in vain evaluating overtly inadequate configurations of
+hyperparameters. In this context, \emph{resources} refers a user-defined measure
+of how extensively a configuration is exercised. For instance, it can be the
+amount of wall-clock time spent or the number of training steps taken; in our
+experiments, we use the latter.
 
 \subsection{Testing}
-In order to have a long-range prediction (multiple steps ahead), we use
-refeeding: the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if
-it was the actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not
-yet known at time step $k$. The process continues until all the desired $h$
-future values are estimated.
+After a trained model has been selected during the validation stage, the model
+has to be assessed anew \cite{hastie2009}: one cannot aver that the error with
+respect to $X_2$ is the generalization error of the model because the selection
+was biased (we deliberately chose the one that performed the best on $X_2$).
+
+In order to have an unbiased evaluation, the testing set $X_3$ is utilized. As
+it is with training and validation, the mean squared error is considered, and it
+is encouraged to use bucketing (see \sref{training}). However, unlike training
+and validation, the error is calculated in a more elaborate way as follows.
+
+First, recall that our objective is making long-range predictions of resource
+usage (see \sref{problem}). Note also that, in \sref{training} and
+\sref{validation}, we are only concerned with what happens one time step ahead.
+The reason is that we would like to have as high of a throughput as possible
+since the training and validation operations are to be performed many times.
+Testing, however, is done only once, and it is during testing we make and assess
+multiple-step-ahead predictions.
+
+In order to compute long-rage predictions, we use refeeding: at time step $k$,
+the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if it was the
+actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not yet known at
+step $k$. The process continues until all the desired $h$ future values are
+estimated. It is natural to expect that the more accurate one-step-ahead
+prediction is, the more accurate the multiple-step-ahead one will be.
+
+There is more to it. Consider how a trained model will be used in practice.
+Potentially at each step $k$, one might want to predict the next $h$ values of
+the resource usage of task $i$, that is, $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k
++ h}$. Therefore, in order to test the model properly, we have to sweep over all
+the time steps of the batch in question while making $h$ predictions at each
+step.
+
+An important aspect to note here is that the state of the model's memory should
+be saved before computing $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k + h}$ at step
+$k$ and restored before feeding $x_{i,k + 1}$ in order to advance to step $k +
+1$. The memory gets ``contaminated'' by feeding predictions instead of
+observations.
+
+It can be seen in the above that testing is a rather elaborate operation
+involving sequential computations.
