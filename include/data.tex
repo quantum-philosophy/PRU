@@ -82,16 +82,15 @@ is what we have at our disposal.
 
 Once the resource-usage traces that will be actually used during a learning
 session are known, they are fetched from the corresponding databases and stored
-in the native format of the machine-learning library at hand. In our case, this
-library is TensorFlow \cite{abadi2015} (to be discussed in \sref{model}), and
-the native format is TFRecord. One TFRecord file typically holds multiple
-records, which will be then read sequentially, one by one upon request without
-clogging memory. Instead of writing all the selected traces into one TFRecord
-file, we distribute them across several files relying on \up{MD5} for deciding
-on the destination file in a similar way to the one described in
-\sref{grouping}. Such a catalog of TFRecord files is created for each of the
-three commonly considered parts \cite{hastie2009} of the data at hand: one
-catalog is for training, one for validation, and one for testing.
+in the native format of the machine-learning library utilized; we shall refer to
+a file in such a format as a binary file. One binary file typically holds
+multiple records, which will be then read sequentially, one by one upon request
+without clogging memory. Instead of writing all the selected traces into one
+binary file, we distribute them across several files relying on \up{MD5} for
+deciding on the destination file in a similar way to the one described in
+\sref{grouping}. Such a catalog of binary files is created for each of the three
+commonly considered parts \cite{hastie2009} of the data at hand: one is for
+training, one for validation, and one for testing.
 
 Lastly, it is common practice to standardize data before feeding them into a
 machine-learning algorithm \cite{hastie2009}. In our case, it is done along with
@@ -103,11 +102,11 @@ All the selected and standardized resource-usage traces are denoted by $X$ (see
 validation, and testing parts of $X$, respectively.
 
 In conclusion, the benefit of the above pipeline is in the streamlined access to
-the data during one or multiple learning sessions. The TFRecord files can be
-read efficiently as many times as needed, and they can be straightforwardly
+the data during one or multiple learning sessions. The binary files can be read
+efficiently as many times as needed, and they can be straightforwardly
 regenerated whenever the selection criteria change; note that the artifacts of
 the procedures in \sref{grouping} and \sref{indexing} stay the same. The
-presence of multiple TFRecord files allows also for shuffling the training data
-at the beginning of each training epoch.
+presence of multiple binary files allows also for shuffling the training data at
+the beginning of each training epoch.
 
 Now we are ready to make use of the obtained data.

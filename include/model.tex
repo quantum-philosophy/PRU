@@ -51,5 +51,8 @@ red box in \fref{model}. Unlike the recurrent layers described in
 \sref{recurrent}, which features highly nonlinear transformations, this layer
 performs an affine transformation.
 
-To summarize, we have described a predictive model. Let us now discuss how the
-model is supposed to be used.
+To summarize, we have described a predictive model that is composed of a number
+of \up{LSTM} cells and a linear regression layer. Due to its internal memory,
+the model is capable of efficiently taking into account the entire past of the
+resource-usage trace under consideration when making predictions. Let us now
+discuss how the model is supposed to be used.
