@@ -60,18 +60,12 @@ and subsequently queried more sophisticated metadata than ours.
 \subsection{Selection} \slab{selection}
 At the last stage of our pipeline, a subset of the resource-usage traces is
 selected according to the needs of a learning session using the index created at
-the previous step and then stored on the disk. Let us elaborate on this now.
+the previous step and then stored on disk. Let us elaborate on this now.
 
-\input{include/assets/figures/histogram}
 First of all, the traces that are too short or too long are filtered out. The
 upper bound discards abnormally long traces, which constitute a negligibly small
 portion of the data, while the lower one ensures that there is a sufficient
-number of data points for the subsequent experimentation. In our experiments, we
-focus on those traces that contain 5--50 data points. In other words, we
-consider $l_i \in [5, 50]$; recall \eref{trace}. It can be seen in
-\fref{histogram}, which shows a truncated histogram of the traces' lengths, that
-such traces constitute around 74\% of the total number of traces (around 18 out
-of 24 million).
+number of data points for the subsequent experimentation.
 
 Second of all, we typically work with a random subset of the filtered traces (as
 described in the above paragraph). It is typically one or two million
