@@ -37,9 +37,9 @@ emits a tensor of size $b \times l \times d$ to be further consumed by the
 model.
 
 The loss function that is being minimized during training is the mean squared
-error \cite{hastie2009} of one-step predictions over the whole batch. The
-correct prediction for the very last time step, which goes beyond the time
-window of the traces in question, is assumed to be zero. To give an example, in
+error (\up{MSE}) \cite{hastie2009} of one-step predictions over the whole batch.
+The correct prediction for the very last time step, which goes beyond the time
+window of the traces in question, is assumed to be zero. For instance, in
 \fref{unroll}, $\hat{x}_{i4}$ has no $x_{i4}$ to be compared with; $x_{i4}$ is
 assumed to be zero.
 
