@@ -14,16 +14,18 @@ which we shall specify shortly. There are two aspects to be discussed.
 
 \input{include/assets/figures/unroll}
 The first concerns the way a single resource-usage trace is fed into the model.
-First, note that a trace has multiple data points ($l_i > 1$), and that two
-traces are of different lengths in general ($l_i \neq l_j$) since the execution
-times of different tasks can differ substantially. All the points of a trace are
-fed in one pass using a technique called dynamic unrolling. An illustration for
-$l_i = 4$ is given in \fref{unroll}, in which the representation in \fref{model}
-has been simplified even further and put on a side. It can be seen that the
-model has been replicated as many times are there are data points in the trace.
-However, it is still the same model, and all the replicas share the same
-parameters. It can also be seen in \fref{unroll} how information flows from one
-step to the next, which is what makes the model recurrent.
+To begin with, the internal memory is nullified before each usage (feeding a
+trace). Next, note that a trace has multiple data points ($l_i > 1$), and that
+two traces are likely to have different lengths ($l_i \neq l_j$) since the
+execution times of two tasks are likely to differ. With this in mind, all the
+points of a trace are fed in one pass using a technique called dynamic
+unrolling. An illustration for $l_i = 4$ is given in \fref{unroll}, in which the
+representation in \fref{model} has been simplified even further and put on a
+side. It can be seen that the model has been replicated as many times are there
+are data points in the trace. However, it is still the same model, and all the
+replicas share the same parameters and internal memory. It can also be seen in
+\fref{unroll} how information flows from one step to the next, which is what
+makes the model recurrent.
 
 Now, it is not efficient to feed only one trace at a time due to the inevitable
 overhead imposed by the computations involved. Therefore, these computations
@@ -75,7 +77,7 @@ of how extensively a configuration is exercised. For instance, it can be the
 amount of wall-clock time spent or the number of training steps taken; in our
 experiments, we use the latter.
 
-\subsection{Testing}
+\subsection{Testing} \slab{testing}
 After a trained model has been selected during the validation stage, the model
 has to be assessed anew \cite{hastie2009}: one cannot aver that the error with
 respect to $X_2$ is the generalization error of the model because the selection

@@ -38,34 +38,38 @@ these many traces take less than three hours. Note that this has to be repeated
 only when the selection criteria change, which happens very rarely.
 
 \subsection{Modeling and Prediction}
-The variant of gradient descent that we employ for minimizing of the loss
-function is Adam \cite{kingma2014}, which is an adaptive optimization algorithm.
-The algorithm is utilized with its default settings recommended by the
-algorithm's authors.
+The training state (\sref{training}) is configured as follows. Based on
+\fref{histogram}, 10 buckets are used according to the rule: $l < 6 < 7 < 8 < 9
+< 10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The variant
+of gradient descent that we employ for minimizing of the loss function is Adam
+\cite{kingma2014}, which is an adaptive algorithm. The algorithm is utilized
+with its default settings recommended by the algorithm's authors.
 
-The hyperparameters that we consider are the number of cells $c$ (blue boxes in
-\fref{model}), number of units per cell $u$ (double circles in \fref{model}),
-and probability of dropout $p$. Specifically, we let $c \in \{1, 2, 3, 4, 5\}$,
-$u \in \{100, 200, 400, 800, 1600\}$, and $p \in \{0.0, 0.1\}$, which yields 50
-different combinations in total. The combinations are explored using the
-Hyperband algorithm \cite{li2016}, introduced in \sref{validation}, with its
+Regarding the validation stage (\sref{validation}), the considered
+hyperparameters are the number of cells $c$ (blue boxes in \fref{model}), number
+of units per cell $u$ (double circles in \fref{model}), and probability of
+dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$, $u \in \{100,
+200, 400, 800, 1600\}$, and $p \in \{0.0, 0.1\}$, which yields 50 different
+combinations in total. The combinations are explored using the Hyperband
+algorithm \cite{li2016}, which is introduced in \sref{validation}, with its
 default settings.
 
+\input{include/assets/figures/validation}
 During the exploration, we run up to 8 learning sessions in parallel, which
 typically keeps all 16 \up{CPU}s busy. It should be noted that, due to the fact
 that the training, validation, and testing data have been cached on disk as a
 result of our data-processing pipeline described in \sref{data}, individual
 learning sessions do not have any overhead in this regard.
 
-In order to have a baseline for the accuracy of resource-usage prediction, we
-use a model based on random walk \cite{hastie2009}, which we shall refer to as
-the reference. This model assumes that the next value is equal to the current
-one plus a optional random offset, which we set to zero for simplicity.
-
-\input{include/assets/figures/validation}
 The validation results can be seen in \fref{validation}.
 
+Let us now turn to the testing stage (\sref{testing}). In order to have a
+baseline for the accuracy of resource-usage prediction, we use a model based on
+random walk \cite{hastie2009}, which we shall refer to as the reference. This
+model assumes that the next value is equal to the current one plus a optional
+random offset, which we set to zero for simplicity.
+
 \input{include/assets/figures/testing}
-Finally, the best trained model as identified at the validation stage undergoes
-testing using the testing set $X_3$. The corresponding results can be seen in
+The best trained model as identified at the validation stage undergoes testing
+using the testing set $X_3$. The corresponding results can be seen in
 \fref{testing}.
