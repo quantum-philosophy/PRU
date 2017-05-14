@@ -19,23 +19,25 @@ CPU usage over five-minute intervals; we extract the former.
 
 The grouping and indexing steps of the data-processing pipeline described in
 \sref{grouping} and \sref{indexing}, respectively, take approximately 60 hours
-(sequentially). Most of this time is spent converting \up{CSV} into SQLite,
-which can be avoided by working with \up{CSV} directly. However, SQLite provides
-a convenient way for working with the data. Moreover, since these operations
-have to be done only once, their computational cost can be safely considered
-negligible.
+or 2--3 days (no parallelism). Most of this time is spent converting \up{CSV}
+into SQLite, which can be avoided by working with \up{CSV} directly. However,
+SQLite provides a convenient way for working with the data. Moreover, since
+these operations have to be done only once, their computational cost can be
+safely considered negligible.
 
 \input{include/assets/figures/histogram}
 Regarding the selection stage delineated in \sref{selection}, we filter those
-traces that contain 5--50 data points; in other words, we let $l_i \in [5, 50]$
-in \eref{trace}. It can be seen in \fref{histogram}, which shows a truncated
-histogram of the traces' lengths, that such traces constitute around 74\% of the
-total number of traces (around 18 out of 24 million). The time taken by the
-selection stage depends on the number of traces to be processed. We experiment
-with two million random traces, that is, $n = 2 \times 10^6$ in \eref{traces} or
-around 11\% of the 5--50 resource-usage traces. Fetching and storing on disk
-these many traces take less than three hours. Note that this has to be repeated
-only when the selection criteria change, which happens very rarely.
+traces that contain 5--50 data points; thus, $l_i \in [5, 50]$ in \eref{trace}.
+It can be seen in \fref{histogram}, which shows a truncated histogram of the
+traces' lengths, that such traces constitute around 74\% of the total number of
+traces (around 18 out of 24 million).
+
+We experiment with a subset of two million random traces, which is around 11\%
+of the 5--50 resource-usage traces; hence, $n = 2 \times 10^6$ in \eref{traces}.
+The data sets $X_1$, $X_2$, and $X_3$ constitute 70\%, 10\%, and 20\% of $X$,
+respectively. Fetching and storing on disk these many traces take less than
+three hours. Recall that this operation has to be repeated only when the
+selection criteria change, which happens rarely in practice.
 
 \subsection{Modeling and Prediction}
 The training state (\sref{training}) is configured as follows. Based on
@@ -45,6 +47,7 @@ of gradient descent that we employ for minimizing of the loss function is Adam
 \cite{kingma2014}, which is an adaptive algorithm. The algorithm is utilized
 with its default settings recommended by the algorithm's authors.
 
+\input{include/assets/figures/validation}
 Regarding the validation stage (\sref{validation}), the considered
 hyperparameters are the number of cells $c$ (blue boxes in \fref{model}), number
 of units per cell $u$ (double circles in \fref{model}), and probability of
@@ -54,22 +57,30 @@ combinations in total. The combinations are explored using the Hyperband
 algorithm \cite{li2016}, which is introduced in \sref{validation}, with its
 default settings.
 
-\input{include/assets/figures/validation}
-During the exploration, we run up to 8 learning sessions in parallel, which
-typically keeps all 16 \up{CPU}s busy. It should be noted that, due to the fact
-that the training, validation, and testing data have been cached on disk as a
-result of our data-processing pipeline described in \sref{data}, individual
-learning sessions do not have any overhead in this regard.
+The above-mentioned exploration, which encompasses both the training and
+validation stages, takes around 134 hours or 5--6 days. During this process, we
+run up to 8 learning sessions in parallel, which typically keeps all 16
+\up{CPU}s busy. It should be noted that, due to the fact that the training,
+validation, and testing data have been cached on disk as a result of our
+data-processing pipeline described in \sref{data}, individual learning sessions
+do not have any overhead in this regard.
 
-The validation results can be seen in \fref{validation}.
+The results of the validation stage can be seen in \fref{validation}, which
+shows the mean squared error (\up{MSE}) of different configurations of the
+hyperparameters as measured using $X_2$.
 
-Let us now turn to the testing stage (\sref{testing}). In order to have a
-baseline for the accuracy of resource-usage prediction, we use a model based on
-random walk \cite{hastie2009}, which we shall refer to as the reference. This
-model assumes that the next value is equal to the current one plus a optional
-random offset, which we set to zero for simplicity.
+After the exploration stage, the best trained model is taken to the testing
+stage (\sref{testing}), which is undertaken using $X_3$. At this stage, the
+model is extensively assessed by predicting the resource usage of individual
+tasks multiple steps ahead at each time step of the testing traces in $X_3$.
+In these experiments, we predict four steps ahead ($h = 4$ in \sref{problem}).
+This elaborate testing procedures takes around 15 hours to finish.
+
+In order to have a baseline for the accuracy of our resource-usage prediction,
+we use a model based on random walk \cite{hastie2009}, which we shall refer to
+as the reference. This model assumes that the next value is equal to the current
+one plus a optional random offset, which we set to zero for simplicity.
 
 \input{include/assets/figures/testing}
-The best trained model as identified at the validation stage undergoes testing
-using the testing set $X_3$. The corresponding results can be seen in
-\fref{testing}.
+The results of the testing stage can be seen in \fref{testing}, which shows the
+\up{MSE} of the chosen model with respect to $X_3$.
