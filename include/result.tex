@@ -57,12 +57,15 @@ that the training, validation, and testing data have been cached on disk as a
 result of our data-processing pipeline described in \sref{data}, individual
 learning sessions do not have any overhead in this regard.
 
-\input{include/assets/figures/testing}
 In order to have a baseline for the accuracy of resource-usage prediction, we
 use a model based on random walk \cite{hastie2009}, which we shall refer to as
 the reference. This model assumes that the next value is equal to the current
 one plus a optional random offset, which we set to zero for simplicity.
 
+\input{include/assets/figures/validation}
+The validation results can be seen in \fref{validation}.
+
+\input{include/assets/figures/testing}
 Finally, the best trained model as identified at the validation stage undergoes
 testing using the testing set $X_3$. The corresponding results can be seen in
 \fref{testing}.
