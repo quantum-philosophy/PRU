@@ -31,15 +31,28 @@ traces that contain 5--50 data points; in other words, we let $l_i \in [5, 50]$
 in \eref{trace}. It can be seen in \fref{histogram}, which shows a truncated
 histogram of the traces' lengths, that such traces constitute around 74\% of the
 total number of traces (around 18 out of 24 million). The time taken by the
-selection stage depends on the number of traces to be processed. For instance,
-fetching and storing on disk one million random traces ($n = 10^6$ in
-\eref{traces}) take less than three hours. This operation has to be repeated
-only when the selection criteria change, which happens very rarely. We
-consider two scenarios: $n = 10^6$ and $n = 2 \times 10^6$---which are roughly
-5\% and 10\% of the 5--50 resource-usage traces, respectively---and,
-consequently, the selection stage has to be done only twice.
+selection stage depends on the number of traces to be processed. We experiment
+with two million random traces, that is, $n = 2 \times 10^6$ in \eref{traces} or
+around 11\% of the 5--50 resource-usage traces. Fetching and storing on disk
+these many traces take less than three hours. Note that this has to be repeated
+only when the selection criteria change, which happens very rarely.
 
 \subsection{Modeling and Prediction}
-The hyperparameters that we consider are the number of cells $c$ (recurrent
-layers in \fref{model}), number of units per cell $u$ (double circles in
-\fref{model}), and probability of dropout $p$.
+The variant of gradient descent that we employ for minimizing of the loss
+function is Adam \cite{kingma2014}, which is an adaptive optimization algorithm.
+The algorithm is utilized with its default settings recommended by the
+algorithm's authors.
+
+The hyperparameters that we consider are the number of cells $c$ (blue boxes in
+\fref{model}), number of units per cell $u$ (double circles in \fref{model}),
+and probability of dropout $p$. Specifically, we let $c \in \{1, 2, 3, 4, 5\}$,
+$u \in \{100, 200, 400, 800, 1600\}$, and $p \in \{0.0, 0.1\}$, which yields 50
+different combinations in total. The combinations are explored using the
+Hyperband algorithm \cite{li2016}, introduced in \sref{validation}, with its
+default settings.
+
+During the exploration, we run up to 8 learning sessions in parallel, which
+typically keeps all 16 \up{CPU}s busy. It should be noted that, due to the fact
+that the training, validation, and testing data have been cached on disk as a
+result of our data-processing pipeline described in \sref{data}, individual
+learning sessions do not have any overhead in this regard.

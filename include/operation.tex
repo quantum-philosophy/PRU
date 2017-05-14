@@ -10,9 +10,7 @@ learned during training; they are primarily various wights and biases inside the
 model's layers. For this purpose, $X_1$ is utilized. The training is undertaken
 via backpropagation through time using stochastic gradient descent
 \cite{goodfellow2016} whose objective is to minimize a certain loss function,
-which we shall specify shortly. The variant of gradient descent that we use is
-Adam \cite{kingma2014}, which is an adaptive optimization method. There are two
-aspects to be discussed about training.
+which we shall specify shortly. There are two aspects to be discussed.
 
 \input{include/assets/figures/unroll}
 The first concerns the way a single resource-usage trace is fed into the model.
