@@ -1,5 +1,5 @@
 Before we describe our data-processing pipeline, let us first give a brief
-introduction to the data set that we consider, the Google cluster-usage traces
+introduction to the data set that we consider: the Google cluster-usage traces
 \cite{reiss2011}. The traces were collected over 29 days in May 2011 and
 encompass more than 12 thousand machines serving requests from more than 900
 users.
@@ -8,24 +8,24 @@ In the data set's parlance, a user request is a job; a job comprises one or
 several tasks; and a task is a Linux program to be run on a single machine.
 Each job is ascribed a unique \up{ID}, and each task is given an \up{ID} that is
 unique in the scope of the corresponding job. Apart from other tables, the data
-set contains the so-called resource-usage table. The table keeps track of the
-resource usage of the tasks with the granularity of five minutes. Each record
+set contains the so-called resource-usage table. The table records the resource
+usage of the executed tasks with the granularity of five minutes. Each record
 corresponds to a specific task and a specific five-minute interval, and it
-provides such metrics as the average and maximum values of the \up{CPU}, memory,
-and disk usage. There are more than 1.2 billion records, which correspond to
-more than 24 million tasks or resource-usage traces and to more than 670
-thousand jobs.
+provides such measurements as the average and maximum values of the \up{CPU},
+memory, and disk usage. There are more than 1.2 billion records, which
+correspond to more than 24 million tasks or resource-usage traces and to more
+than 670 thousand jobs.
 
 The resource-usage table is provided in the form of 500 archives. Each archive
 contains a single \up{CSV} file with measurements over a certain time window.
 Such a format is inconvenient and inefficient to work with. In particular, in
 order to find all the data points that belong to a particular task, one has to
 search in all the archives in general. Such a querying strategy is not practical
-as reading data is a core operation, which has to be undertaken a myriad of
-times during a learning session. The situation is exacerbated further when
-multiple learning sessions are to be performed, which is the most common
-scenario in practice. All in all, an efficient data-processing pipeline is
-needed, which is what we shall develop in this section.
+as reading data is a key operation, which has to be undertaken a myriad of times
+during a learning session. The situation is exacerbated further when multiple
+learning sessions are to be performed, which is the most common scenario in
+practice. All in all, an efficient data-processing pipeline is needed, which is
+what we develop in this section.
 
 \subsection{Grouping} \slab{grouping}
 At the first stage, the \up{CSV} data from the 500 archives are distributed into
@@ -38,8 +38,7 @@ job \up{ID}, task \up{ID}, and average \up{CPU} utilization.
 Each \up{CSV} file is created and populated in one of a number of folders in
 order to reduce the burden on the file system and to have a better organization
 in general. To this end, we compute the \up{MD5} hash of the job and task
-\up{ID} and use the first letters of the hash as the name of the destination
-folder.
+\up{ID}s and use its first letters as the name of the destination folder.
 
 Finally, the \up{CSV} files are converted into SQLite databases in order to have
 the \up{SQL} language at our disposal for querying the data. In particular, one
@@ -49,18 +48,18 @@ task, and the resulting data points have to be ordered chronologically.
 \subsection{Indexing} \slab{indexing}
 At the second stage, an index of the traces is created in order to be able to
 efficiently navigate the catalog of the SQLite databases created at the previous
-step. Each record in the index contains metadata about a single task, the most
+stage. Each record in the index contains metadata about a single task, the most
 important of which are the task ID and the path to the corresponding SQLite
 database. We also include the length of the trace in question into the index in
 order to be able to efficiently filter the traces by their lengths at a later
-step. The format of the index has been chosen to be \up{CSV}, which is
+stage. The format of the index has been chosen to be \up{CSV}, which is
 sufficient in this case, but it can be turned into SQLite if one wishes to store
 and subsequently queried more sophisticated metadata than ours.
 
 \subsection{Selection} \slab{selection}
-At the last stage of our pipeline, a subset of the resource-usage traces is
-selected according to the needs of a learning session using the index created at
-the previous step and then stored on disk. Let us elaborate on this now.
+At the last stage of the pipeline, a subset of the resource-usage traces is
+selected according to the needs of a learning session using the index, created
+at the previous stage, and then stored on disk. Let us elaborate on this now.
 
 First of all, the traces that are too short or too long are filtered out. The
 upper bound discards abnormally long traces, which constitute a negligibly small
@@ -74,11 +73,11 @@ therefore, can iterate on modeling ideas substantially faster. It also makes it
 possible to work with the data set on one machine with commodity hardware, which
 is what we have at our disposal.
 
-Once the resource-usage traces that will be actually used during a learning
+Once the resource-usage traces that will actually be used during a learning
 session are known, they are fetched from the corresponding databases and stored
 in the native format of the machine-learning library utilized; we shall refer to
 a file in such a format as a binary file. One binary file typically holds
-multiple records, which will be then read sequentially, one by one upon request
+multiple records, which will then be read sequentially, one by one upon request
 without clogging memory. Instead of writing all the selected traces into one
 binary file, we distribute them across several files relying on \up{MD5} for
 deciding on the destination file in a similar way to the one described in
