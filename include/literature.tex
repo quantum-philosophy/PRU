@@ -13,13 +13,13 @@ temperatures.
 
 Closer to our work, the work in \cite{dabbagh2015} is concerned with cloud data
 centers. The authors propose a framework for predicting the number of
-virtual-machine requests along with the required amount of \up{CPU} and memory
-resources. The framework relies on k-means clustering \cite{hastie2009} for
-identifying different types of requests, and then it uses Wiener filters in
+virtual-machine requests along with the required amount of \up{CPU} and memory.
+The framework first makes use of k-means clustering \cite{hastie2009} for
+identifying different types of requests, and it then uses Wiener filters in
 order to estimate the workload with respect to each identified type.
 
 Similar to \cite{dabbagh2015}, the work in \cite{ismaeel2015} is focused on
-forecasting virtual-machine requests of a cloud data center and relies on
+forecasting virtual-machine requests in a cloud data center and relies on
 k-means clustering as the first step. Unlike \cite{dabbagh2015}, the main
 workhorse in the case of \cite{ismaeel2015} is extreme learning machines, which
 are feed-forward neural networks mentioned earlier.
@@ -31,21 +31,20 @@ neighbors, and most similar pattern model. The final predictions are obtained by
 combing the predictions from these models by means of a scoring algorithm.
 
 It can be seen that, in general, machine learning has been extensively utilized
-for aiding the design of computer systems. However, as it is noted in
+for aiding the design of computer systems. However, as we note in
 \sref{introduction}, the recent advancements in machine learning have not been
 sufficiently explored yet in this context. In particular, the state-of-the-art
-neural networks have not been studied only marginally: feed-forward networks are
-the simplest and least powerful members of the family.
+neural networks have been studied only marginally: feed-forward networks are
+arguably the simplest and least powerful members of the family.
 
 In addition, note that the predictions delivered by \cite{dabbagh2015,
 ismaeel2015, cao2014} are coarse, aggregative. The corresponding techniques
 treat virtual-machine requests or computational resources as a fluid and predict
-the amount of this fluid that will arrive or be needed at the next time step,
-which means that these techniques are not capable of characterizing individual
-tasks. Such fine-grained information, however, can be of great help for the
-resource manager of the computer cluster under consideration.
+the amount of this fluid that will arrive or be needed at the next time step. It
+means that these techniques are not capable of characterizing individual tasks.
+Such fine-grained information, however, can be of great help for the resource
+manager of the computer cluster under consideration.
 
 To conclude, only primitive architectures of neural networks have been
 considered, and only aggregative resource-usage prediction has been addressed so
-far. Consequently, there is a palpable need for further exploration and
-development.
+far. Consequently, there is a need for further exploration and development.
