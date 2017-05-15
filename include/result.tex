@@ -25,10 +25,10 @@ SQLite provides a convenient way for working with the data. Moreover, since
 these operations have to be done only once, their computational cost can be
 safely considered negligible.
 
-\input{include/assets/figures/histogram}
+\input{include/assets/figures/traces}
 Regarding the selection stage delineated in \sref{selection}, we filter those
 traces that contain 5--50 data points; thus, $l_i \in [5, 50]$ in \eref{trace}.
-It can be seen in \fref{histogram}, which shows a truncated histogram of the
+It can be seen in \fref{traces}, which shows a truncated histogram of the
 traces' lengths, that such traces constitute around 74\% of the total number of
 traces (around 18 out of 24 million).
 
@@ -41,21 +41,19 @@ selection criteria change, which happens rarely in practice.
 
 \subsection{Modeling and Prediction}
 The training state (\sref{training}) is configured as follows. Based on
-\fref{histogram}, 10 buckets are used according to the rule: $l < 6 < 7 < 8 < 9
-< 10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The variant
-of gradient descent that we employ for minimizing of the loss function is Adam
+\fref{traces}, 10 buckets are used according to the rule: $l < 6 < 7 < 8 < 9 <
+10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The variant of
+gradient descent that we employ for minimizing of the loss function is Adam
 \cite{kingma2014}, which is an adaptive algorithm. The algorithm is utilized
 with its default settings recommended by the algorithm's authors.
 
-\input{include/assets/figures/validation}
 Regarding the validation stage (\sref{validation}), the considered
 hyperparameters are the number of cells $c$ (blue boxes in \fref{model}), number
 of units per cell $u$ (double circles in \fref{model}), and probability of
 dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$, $u \in \{100,
 200, 400, 800, 1600\}$, and $p \in \{0.0, 0.1\}$, which yields 50 different
-combinations in total. The combinations are explored using the Hyperband
-algorithm \cite{li2016}, which is introduced in \sref{validation}, with its
-default settings.
+combinations in total. The combinations are explored by means of the Hyperband
+algorithm, which is introduced in \sref{validation}, with its default settings.
 
 The above-mentioned exploration, which encompasses both the training and
 validation stages, takes around 134 hours or 5--6 days. During this process, we
@@ -65,6 +63,7 @@ validation, and testing data have been cached on disk as a result of our
 data-processing pipeline described in \sref{data}, individual learning sessions
 do not have any overhead in this regard.
 
+\input{include/assets/figures/validation}
 The results of the validation stage can be seen in \fref{validation}, which
 shows the mean squared error (\up{MSE}) of different configurations of the
 hyperparameters as measured using $X_2$.
