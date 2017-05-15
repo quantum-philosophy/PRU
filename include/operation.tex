@@ -7,10 +7,10 @@ working with the model presented in \sref{model}.
 \subsection{Training} \slab{training}
 The model in \sref{model} has a large number of parameters that have to be
 learned during training; they are primarily various wights and biases inside the
-model's layers. For this purpose, $X_1$ is utilized. The training is undertaken
-via backpropagation through time using stochastic gradient descent
+layers. For this purpose, $X_1$ is utilized. The training is undertaken via
+backpropagation through time using stochastic gradient descent
 \cite{goodfellow2016} whose objective is to minimize a certain loss function,
-which we shall specify shortly. There are two aspects to be discussed.
+which we shall specify shortly. There are two aspects to be discussed first.
 
 \input{include/assets/figures/unroll}
 The first concerns the way a single resource-usage trace is fed into the model.
@@ -21,7 +21,7 @@ execution times of two tasks are likely to differ. With this in mind, all the
 points of a trace are fed in one pass using a technique called dynamic
 unrolling. An illustration for $l_i = 4$ is given in \fref{unroll}, in which the
 representation in \fref{model} has been simplified even further and put on a
-side. It can be seen that the model has been replicated as many times are there
+side. It can be seen that the model has been replicated as many times as there
 are data points in the trace. However, it is still the same model, and all the
 replicas share the same parameters and internal memory. It can also be seen in
 \fref{unroll} how information flows from one step to the next, which is what
@@ -46,20 +46,20 @@ window of the traces in question, is assumed to be zero. For instance, in
 assumed to be zero.
 
 \subsection{Validation} \slab{validation}
-As it is the case with all nontrivial machine-learning models, the one presented
-in \sref{model} has a number of hyperparameters. Examples include the number of
-cells $c$, number of units per cell $u$, and probability of dropout $p$, which
-were introduced in \sref{recurrent}. Unlike (ordinary) parameters, which are to
-be optimized during training (see \sref{training}), such hyperparameters are to
-be set prior to training, and they are typically kept unchanged thereafter. From
-the examples given, it is apparent that the impact of hyperparameters is
-profound. Therefore, they should be carefully configured.
+As it is the case with arguably all nontrivial machine-learning models, the one
+presented in \sref{model} has a number of hyperparameters. Examples include the
+number of cells $c$, number of units per cell $u$, and probability of dropout
+$p$, which were introduced in \sref{recurrent}. Unlike (ordinary) parameters,
+which are to be optimized during training (see \sref{training}), such
+hyperparameters are to be set prior to training, and they are typically kept
+unchanged thereafter. From the examples given, it is apparent that the impact of
+hyperparameters is profound. Therefore, they should be carefully configured.
 
 The validation set $X_2$ is used to assess the performance of the model trained
 (using $X_1$ as usual) under different configurations of the model's
-hyperparameters. As before, the metric is the mean squared error, and it is
-highly beneficial to perform the computations in batches. The trained model that
-has the best performance on $X_2$ is then chosen as the final one.
+hyperparameters. As before, the error metric is the \up{MSE}, and it is highly
+beneficial to perform these computations in batches. The trained model that has
+the best performance on $X_2$ is then chosen as the final one.
 
 Despite all the techniques employed to speed up training, it is still an
 expensive operation. As a result, brute-force search in the space of
@@ -70,7 +70,7 @@ In our workflow, we use the Hyperband algorithm \cite{li2016}. Instead of
 adaptively choosing new configurations to evaluate---which is the case with many
 algorithms of this kind---it adaptively allocates resources to configurations
 chosen at random, which has been shown to be a very efficient strategy. In
-particular, the algorithm allows one to save a lot of compute power, which
+particular, the algorithm allows one for saving a lot of compute power, which
 otherwise would be burnt in vain evaluating overtly inadequate configurations of
 hyperparameters. In this context, \emph{resources} refers a user-defined measure
 of how extensively a configuration is exercised. For instance, it can be the
@@ -84,9 +84,9 @@ respect to $X_2$ is the generalization error of the model because the selection
 was biased (we deliberately chose the one that performed the best on $X_2$).
 
 In order to have an unbiased evaluation, the testing set $X_3$ is utilized. As
-it is with training and validation, the mean squared error is considered, and it
-is encouraged to use bucketing (see \sref{training}). However, unlike training
-and validation, the error is calculated in a more elaborate way as follows.
+it is with training and validation, the \up{MSE} is considered, and it is
+encouraged to use bucketing (see \sref{training}). However, unlike training and
+validation, the error is calculated in a more elaborate way as follows.
 
 First, recall that our objective is making long-range predictions of resource
 usage (see \sref{problem}). Note also that, in \sref{training} and
@@ -107,7 +107,7 @@ There is more to it. Consider how a trained model will be used in practice.
 Potentially at each step $k$, one might want to predict the next $h$ values of
 the resource usage of task $i$, that is, $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k
 + h}$. Therefore, in order to test the model properly, we have to sweep over all
-the time steps of the batch in question while making $h$ predictions at each
+the time steps of the trace in question while making $h$ predictions at each
 step.
 
 An important aspect to note here is that the state of the model's memory should
