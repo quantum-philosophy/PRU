@@ -1,4 +1,4 @@
-Consider a cluster of computers that are serving a stream of tasks which are
+Consider a cluster of computers that is serving a stream of tasks which are
 distributed across the cluster by a resource manager. Each task consumes certain
 resources during its execution; examples include the \up{CPU} and memory usage
 over time. The cluster has an adequate monitoring facility deployed so that the
@@ -20,23 +20,22 @@ $x_{i0}, \dots, x_{ik}$ are known. Given these previous values of the trace, our
 goal is to estimate its next $h$ values denoted by $\hat{x}_{i,k + 1}, \dots,
 \hat{x}_{i,k + h}$. Such an estimation is called a long-range prediction as it
 provides multiple future values as opposed to only one. This operation is to be
-performed for each of the active tasks of interest at any time moment of
-interest.
+performed for each active task of interest at any time moment of interest.
 
-In order to attain the objective, we reside to learning from historical data. To
-elaborate, it is first assumed that there is a data set of resource-usage traces
-available, and that these past traces are representative of the future ones:
+In order to attain the objective, we reside to learning from historical data.
+Specifically, it is first assumed that there is a data set of resource-usage
+traces available, and that these past traces are representative of the future
+ones:
 \begin{equation} \elab{traces}
   X = \{ x_i: i = 0, \dots, n - 1 \}
 \end{equation}
 where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
-then apply machine learning \cite{hastie2009} to the data in order to construct
-an adequate model and make predictions. We specifically aim at investigating the
-utility of the state-of-the-art in machine learning, namely, recurrent neural
+then apply machine learning to the data in order to construct an adequate model
+and make predictions. We specifically aim at investigating the utility of the
+state-of-the-art in machine learning; to this end, we use recurrent neural
 networks \cite{goodfellow2016}.
 
 Lastly, in order for learning to be possible, the fine-grained resource-usage
-traces that we consider have to have a certain structure (roughly, not to be
-random), which could be extracted and used for intelligent prediction.
-Investigating the presence of such a structure is part of our objective in this
-work.
+traces that we consider have to have a certain structure (not purely random),
+which could be extracted and used for intelligent prediction. Investigating the
+presence of such a structure is part of our objective in this work.
