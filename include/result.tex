@@ -40,7 +40,7 @@ three hours. Recall that this operation has to be repeated only when the
 selection criteria change, which happens rarely in practice.
 
 \subsection{Modeling and Prediction}
-The training state (\sref{training}) is configured as follows. Based on
+The training stage (\sref{training}) is configured as follows. Based on
 \fref{traces}, 10 buckets are used according to the rule: $l < 6 < 7 < 8 < 9 <
 10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The variant of
 gradient descent that we employ for minimizing of the loss function is Adam
@@ -54,6 +54,9 @@ dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$, $u \in \{100,
 200, 400, 800, 1600\}$, and $p \in \{0.0, 0.1\}$, which yields 50 different
 combinations in total. The combinations are explored by means of the Hyperband
 algorithm, which is introduced in \sref{validation}, with its default settings.
+The maximum budget for a configuration is set to two training epochs, which
+correspond to $2 \times 0.7 \times 2 \times 10^6 = 2.8 \times 10^6$ traces or
+$2.8 \times 10^6 \div 64 = 43\,750$ training steps.
 
 The above-mentioned exploration, which encompasses both the training and
 validation stages, takes around 134 hours or 5--6 days. During this process, we
@@ -66,19 +69,23 @@ do not have any overhead in this regard.
 \input{include/assets/figures/validation}
 The results of the validation stage can be seen in \fref{validation}, which
 shows the mean squared error (\up{MSE}) of different configurations of the
-hyperparameters as measured using $X_2$.
+hyperparameters as measured using $X_2$ ($0.1 \times 2 \times 10^6 = 2 \times
+10^5$ traces). It can be seen that some of the configurations sampled by
+Hyperband have been explored only partially since they are not as promising as
+the alternatives.
 
 After the exploration stage, the best trained model is taken to the testing
-stage (\sref{testing}), which is undertaken using $X_3$. At this stage, the
-model is extensively assessed by predicting the resource usage of individual
-tasks multiple steps ahead at each time step of the testing traces in $X_3$.
-In these experiments, we predict four steps ahead ($h = 4$ in \sref{problem}).
-This elaborate testing procedures takes around 15 hours to finish.
+stage (\sref{testing}), which is undertaken using $X_3$ ($0.2 \times 2 \times
+10^6 = 4 \times 10^5$ traces). At this stage, the model is extensively assessed
+by predicting the resource usage of individual tasks multiple steps ahead at
+each time step of the testing traces in $X_3$. In these experiments, we predict
+four steps ahead ($h = 4$ in \sref{problem}). This elaborate testing procedure
+takes around 15 hours from start to finish.
 
 In order to have a baseline for the accuracy of our resource-usage prediction,
 we use a model based on random walk \cite{hastie2009}, which we shall refer to
-as the reference. This model assumes that the next value is equal to the current
-one plus a optional random offset, which we set to zero for simplicity.
+as the reference model. This model assumes that the next value is equal to the
+current one plus a optional random offset, which we set to zero for simplicity.
 
 \input{include/assets/figures/testing}
 The results of the testing stage can be seen in \fref{testing}, which shows the
