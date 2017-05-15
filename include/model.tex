@@ -10,7 +10,7 @@ is natural to found our model on the basis of recurrent neural networks
 A schematic representation of our model can be seen in \fref{model}; many of the
 actual connections between the model's parts are simplified or not shown at all
 in order to make the figure legible. In the following subsections, we shall
-describe each part in detail; a number of important operational aspects of the
+describe each part in detail. A number of important operational aspects of the
 model will be covered in the next section, \sref{operation}.
 
 \subsection{Input and Output}
@@ -23,10 +23,10 @@ one-step-ahead prediction of the usage.
 
 \subsection{Recurrent Layers} \slab{recurrent}
 The core of the model is formed by a number of recurrent layers, which are also
-called cells and shown as a group of blue boxes in \fref{model}. The network can
-be made as many layers deep as needed. Each cell is composed of a number of
-units, which are depicted by double circles in \fref{model}. We let $c$ and $u$
-be the number of cells and units per cell, respectively.
+called cells. They are shown as a group of blue boxes in \fref{model}. The
+network can be made as many layers deep as needed. Each cell is composed of a
+number of units, which are depicted by double circles in \fref{model}. We let
+$c$ and $u$ be the number of cells and units per cell, respectively.
 
 A unit is the smallest processing elements. The key characteristics of a unit
 are that it has internal memory, and that it has access to its previous output,
