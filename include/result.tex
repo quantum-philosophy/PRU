@@ -28,9 +28,9 @@ safely considered negligible.
 \input{include/assets/figures/traces}
 Regarding the selection stage delineated in \sref{selection}, we filter those
 traces that contain 5--50 data points; thus, $l_i \in [5, 50]$ in \eref{trace}.
-It can be seen in \fref{traces}, which shows a truncated histogram of the
-traces' lengths, that such traces constitute around 74\% of the total number of
-traces (around 18 out of 24 million).
+It can be seen in \fref{traces}, which shows a histogram of the traces' lengths,
+that such traces constitute around 74\% of the total number of traces (around 18
+out of 24 million).
 
 We experiment with a subset of two million random traces, which is around 11\%
 of the 5--50 resource-usage traces; hence, $n = 2 \times 10^6$ in \eref{traces}.
@@ -42,21 +42,21 @@ selection criteria change, which happens rarely in practice.
 \subsection{Modeling and Prediction}
 The training stage (\sref{training}) is configured as follows. Based on
 \fref{traces}, 10 buckets are used according to the rule: $l < 6 < 7 < 8 < 9 <
-10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The variant of
-gradient descent that we employ for minimizing of the loss function is Adam
-\cite{kingma2014}, which is an adaptive algorithm. The algorithm is utilized
+10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The
+optimization algorithm employed for minimizing of the loss function is Adam
+\cite{kingma2014}, which is an adaptive technique. The algorithm is utilized
 with its default settings recommended by the algorithm's authors.
 
 Regarding the validation stage (\sref{validation}), the considered
-hyperparameters are the number of cells $c$ (blue boxes in \fref{model}), number
-of units per cell $u$ (double circles in \fref{model}), and probability of
-dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$, $u \in \{100,
-200, 400, 800, 1600\}$, and $p \in \{0, 0.1\}$, which yields 50 different
-combinations in total. The combinations are explored by means of the Hyperband
-algorithm, which is introduced in \sref{validation}, with its default settings.
-The maximum budget for a configuration is set to two training epochs, which
-correspond to $2 \times 0.7 \times 2 \times 10^6 = 2.8 \times 10^6$ traces or
-$2.8 \times 10^6 \div 64 = 43\,750$ training steps.
+hyperparameters are the number of cells $c$ (the blue boxes in \fref{model}),
+number of units per cell $u$ (the double circles in \fref{model}), and
+probability of dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$,
+$u \in \{100, 200, 400, 800, 1600\}$, and $p \in \{0, 0.1\}$, which yields 50
+different combinations in total. The candidates are explored by means of the
+Hyperband algorithm, which is introduced in \sref{validation}, with its default
+settings. The maximum budget for one configuration is set to two training
+epochs, which correspond to $2 \times 0.7 \times 2 \times 10^6 = 2.8 \times
+10^6$ traces or $2.8 \times 10^6 \div 64 = 43\,750$ training steps.
 
 The above-mentioned exploration, which encompasses both the training and
 validation stages, takes around 134 hours or 5--6 days. During this process, we
@@ -76,30 +76,34 @@ how Hyperband operates: some of the sampled configurations are explored only
 partially since they are regarded as less promising. The best trained model is
 found to have the following hyperparameters: $c = 4$, $u = 1600$, and $p = 0$.
 However, one can observe in \fref{validation} that there are several other
-configurations that are close to the best one. All these configurations
-correspond to deeper and wider architectures, that is, to those that have more
-cells and more units per cell (see \fref{model}). Finally, it is worth noting
-that the curves readily plateau, which suggests a limit to what can be extracted
-from the data with the model.
+candidates that are close to the best one. All these configurations correspond
+to deeper and wider architectures, that is, to those that have more cells and
+more units per cell (see \fref{model}). Finally, it is worth noting that the
+curves readily plateau, which suggests a limit to what can be extracted from the
+data with the model.
 
 After the exploration stage, the best trained model is taken to the testing
 stage (\sref{testing}), which is undertaken using $X_3$ ($0.2 \times 2 \times
 10^6 = 4 \times 10^5$ traces). At this stage, the model is extensively assessed
 by predicting the resource usage of individual tasks multiple steps ahead at
 each time step of the testing traces in $X_3$. In these experiments, we predict
-four steps into the future ($h = 4$ in \sref{problem}). This elaborate testing
-procedure takes around 15 hours from start to finish.
+four steps into the future ($h = 4$ in \sref{problem}). This elaborate
+sequential testing procedure takes around 15 hours from start to finish.
 
 In order to evaluate better the accuracy of our resource-usage predictions, we
 use an alternative model, which we shall refer to as the reference model. The
 reference model is based on random walk. It postulates that the best prediction
 of what will happen tomorrow is what happens today: the next value of a
-resource-usage trace is predicted to be the current one.
+resource-usage trace is estimated to be the current one, which results in four
+identical predictions at each time step.
 
 The results of the testing stage can be seen in \fref{testing}, which shows the
 \up{MSE} of our best trained model (the blue line) as well as the one of the
-reference model (the red line) with respect to $X_3$. It can be seen that,
-relative to the reference model, our model provides an error reduction of
-approximately 30\% at each of the four future time moments. The results suggest
-that there are certain regularities in the data that can be identified and
-utilized in order to make educated predictions.
+reference model (the red line) with respect to $X_3$. The magnitude of our
+model's errors suggests that the amount of regularity present in the data is not
+sufficient to make the resource-usage predictions extremely accurate.
+Nevertheless, it can be seen in \fref{testing} that, relative to the reference
+model, our model provides an error reduction of approximately 30\% at each of
+the four future time moments. This observation suggests that a certain structure
+does exist, and that it can be identified and utilized in order to make educated
+predictions.

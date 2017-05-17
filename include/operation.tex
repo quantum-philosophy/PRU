@@ -33,10 +33,10 @@ should be performed in batches whenever possible. Since $l_i \neq l_j$ in
 general, it is not possible to stack multiple arbitrary traces into a single
 tensor directly. In order to circumvent this problem, we reside to bucketing.
 Specifically, each read trace is put into one of many queues depending on its
-length. When a queue accumulating traces of some length $l$ has collected the
-desired number of traces---denoted by $b$ and referred to as the batch size---it
-emits a tensor of size $b \times l \times d$ to be further consumed by the
-model.
+length. When a queue accumulating those traces whose length is from some $l'$ to
+some $l''$ has collected the desired number of traces---denoted by $b$ and
+referred to as the batch size---it pads short traces with zeros and emits a
+tensor of size $b \times l'' \times d$ to be further consumed by the model.
 
 The loss function that is being minimized during training is the mean squared
 error (\up{MSE}) \cite{hastie2009} of one-step predictions over the whole batch.
