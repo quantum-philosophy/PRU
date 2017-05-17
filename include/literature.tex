@@ -6,45 +6,45 @@ moving-average model \cite{hastie2009}, enabling the development of an efficient
 thermal management strategy for multiprocessor systems. The work in
 \cite{kumar2010} enhances runtime thermal management by providing an on-chip
 temperature predictor based on feed-forward neural networks \cite{hastie2009}.
-The analysis and mitigation of the impact of process variation that are
-undertaken in \cite{juan2014} are facilitated by a linear regression model
-\cite{hastie2009} trained on leakage measurements in order to predict peak
-temperatures. In \cite{ukhov2014}, process variation in semiconductor wafers is
-analyzed by means of a framework based on Bayesian inference \cite{hastie2009}.
+The analysis and mitigation of the impact of process variation undertaken in
+\cite{juan2014} are facilitated by a linear regression model \cite{hastie2009}
+trained on leakage measurements with the goal of predicting peak temperatures.
+In \cite{ukhov2014}, process variation in semiconductor wafers is analyzed by
+means of a framework relying on Bayesian inference \cite{hastie2009}.
 
 Closer to our work, the work in \cite{dabbagh2015} is concerned with cloud data
 centers. The authors propose a framework for predicting the number of
-virtual-machine requests along with the required amount of \up{CPU} and memory.
-The framework first makes use of k-means clustering \cite{hastie2009} for
-identifying different types of requests, and it then uses Wiener filters in
+virtual-machine requests together with the required amount of \up{CPU} and
+memory. The framework makes use of k-means clustering \cite{hastie2009} for
+identifying different types of requests, and then it uses Wiener filters in
 order to estimate the workload with respect to each identified type.
 
 Similar to \cite{dabbagh2015}, the work in \cite{ismaeel2015} is focused on
-forecasting virtual-machine requests in a cloud data center and relies on
-k-means clustering as the first step. Unlike \cite{dabbagh2015}, the main
-workhorse in the case of \cite{ismaeel2015} is extreme learning machines, which
-are feed-forward neural networks mentioned earlier.
+forecasting virtual-machine requests in cloud data centers and relies on k-means
+clustering as the first step. Unlike \cite{dabbagh2015}, the main workhorse in
+the case of \cite{ismaeel2015} is extreme learning machines, which are
+feed-forward neural networks mentioned earlier.
 
 An ensemble model \cite{hastie2009} is presented in \cite{cao2014} targeted at
-predicting the \up{CPU} usage in a cloud environment. It relies on multiple
+predicting the \up{CPU} usage in cloud environments. It relies on multiple
 models including an exponential smoothing, auto regressive, weighted nearest
 neighbors, and most similar pattern model. The final predictions are obtained by
 combing the predictions from these models by means of a scoring algorithm.
 
 It can be seen that, in general, machine learning has been extensively utilized
-for aiding the design of computer systems. However, as we note in
+for aiding the design of computer systems. However, as mentioned in
 \sref{introduction}, the recent advancements in machine learning have not been
-sufficiently explored yet in this context. In particular, the state-of-the-art
-neural networks have been studied only marginally: feed-forward networks are
-arguably the simplest and least powerful members of the family.
+sufficiently explored yet in this context. In particular, neural networks have
+been studied only marginally: feed-forward networks are arguably the simplest
+and least powerful members of the family.
 
 In addition, note that the predictions delivered by \cite{dabbagh2015,
 ismaeel2015, cao2014} are coarse, aggregative. The corresponding techniques
 treat virtual-machine requests or computational resources as a fluid and predict
 the amount of this fluid that will arrive or be needed at the next time step. It
 means that these techniques are not capable of characterizing individual tasks.
-Such fine-grained information, however, can be of great help for the resource
-manager of the computer cluster under consideration.
+Such fine-grained information, however, can be of help for the resource manager
+of the computer cluster under consideration.
 
 To conclude, only primitive architectures of neural networks have been
 considered, and only aggregative resource-usage prediction has been addressed so

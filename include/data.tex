@@ -1,5 +1,5 @@
 Before we describe our data-processing pipeline, let us first give a brief
-introduction to the data set that we consider: the Google cluster-usage traces
+introduction to the data set at hand: the Google cluster-usage traces
 \cite{reiss2011}. The traces were collected over 29 days in May 2011 and
 encompass more than 12 thousand machines serving requests from more than 900
 users.
@@ -24,7 +24,7 @@ search in all the archives in general. Such a querying strategy is not practical
 as reading data is a key operation, which has to be undertaken a myriad of times
 during a learning session. The situation is exacerbated further when multiple
 learning sessions are to be performed, which is the most common scenario in
-practice. All in all, an efficient data-processing pipeline is needed, which is
+practice. To conclude, an efficient data-processing pipeline is needed, which is
 what we develop in this section.
 
 \subsection{Grouping} \slab{grouping}
@@ -58,20 +58,21 @@ and subsequently queried more sophisticated metadata than ours.
 
 \subsection{Selection} \slab{selection}
 At the last stage of the pipeline, a subset of the resource-usage traces is
-selected according to the needs of a learning session using the index, created
-at the previous stage, and then stored on disk. Let us elaborate on this now.
+selected using the index, created at the previous stage, according to the needs
+of a particular learning session and then stored on disk. Let us elaborate on
+this now.
 
 First of all, the traces that are too short or too long are filtered out. The
 upper bound discards abnormally long traces, which constitute a negligibly small
 portion of the data, while the lower one ensures that there is a sufficient
 number of data points for the subsequent experimentation.
 
-Second of all, we typically work with a random subset of the filtered traces (as
-described in the above paragraph). It is typically one or two million
-resource-usage traces. By doing so, we obtain shorter development cycles and,
-therefore, can iterate on modeling ideas substantially faster. It also makes it
-possible to work with the data set on one machine with commodity hardware, which
-is what we have at our disposal.
+Secondly, we typically work with a random subset of the filtered resource-usage
+traces (as described in the above paragraph), which is usually one or two
+million traces. By doing so, we obtain shorter development cycles and,
+therefore, can iterate on modeling ideas faster. It also makes it possible to
+work with the data set on a single machine with commodity hardware, which is
+what we have at our disposal.
 
 Once the resource-usage traces that will actually be used during a learning
 session are known, they are fetched from the corresponding databases and stored
@@ -102,4 +103,4 @@ the procedures in \sref{grouping} and \sref{indexing} stay the same. The
 presence of multiple binary files allows also for shuffling the training data at
 the beginning of each training epoch.
 
-Now we are ready to make use of the obtained data.
+Now we are ready to make use of the processed data.

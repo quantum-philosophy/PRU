@@ -24,8 +24,8 @@ representation in \fref{model} has been simplified even further and put on a
 side. It can be seen that the model has been replicated as many times as there
 are data points in the trace. However, it is still the same model, and all the
 replicas share the same parameters and internal memory. It can also be seen in
-\fref{unroll} how information flows from one step to the next, which is what
-makes the model recurrent.
+\fref{unroll} how information flows from one time step to the next, which is
+what makes the model recurrent.
 
 Now, it is not efficient to feed only one trace at a time due to the inevitable
 overhead imposed by the computations involved. Therefore, these computations
@@ -33,14 +33,14 @@ should be performed in batches whenever possible. Since $l_i \neq l_j$ in
 general, it is not possible to stack multiple arbitrary traces into a single
 tensor directly. In order to circumvent this problem, we reside to bucketing.
 Specifically, each read trace is put into one of many queues depending on its
-length. When a queue accumulating those traces whose length is from some $l'$ to
-some $l''$ has collected the desired number of traces---denoted by $b$ and
-referred to as the batch size---it pads short traces with zeros and emits a
-tensor of size $b \times l'' \times d$ to be further consumed by the model.
+length. When a queue, accumulating traces of length from some $l'$ to $l''$, has
+collected the desired number of traces---denoted by $b$ and referred to as the
+batch size---it pads traces shorter than $l'$ with zeros and emits a tensor of
+size $b \times l'' \times d$ to be further consumed by the model.
 
-The loss function that is being minimized during training is the mean squared
-error (\up{MSE}) \cite{hastie2009} of one-step predictions over the whole batch.
-The correct prediction for the very last time step, which goes beyond the time
+The loss function that we minimize during training is the mean squared error
+(\up{MSE}) \cite{hastie2009} of one-step predictions over the whole batch. The
+correct prediction for the very last time step, which goes beyond the time
 window of the traces in question, is assumed to be zero. For instance, in
 \fref{unroll}, $\hat{x}_{i4}$ has no $x_{i4}$ to be compared with; $x_{i4}$ is
 assumed to be zero.
@@ -49,7 +49,7 @@ assumed to be zero.
 As it is the case with arguably all nontrivial machine-learning models, the one
 presented in \sref{model} has a number of hyperparameters. Examples include the
 number of cells $c$, number of units per cell $u$, and probability of dropout
-$p$, which were introduced in \sref{recurrent}. Unlike (ordinary) parameters,
+$p$, which are introduced in \sref{recurrent}. Unlike (ordinary) parameters,
 which are to be optimized during training (see \sref{training}), such
 hyperparameters are to be set prior to training, and they are typically kept
 unchanged thereafter. From the examples given, it is apparent that the impact of
@@ -88,7 +88,7 @@ it is with training and validation, the \up{MSE} is considered, and it is
 encouraged to use bucketing (see \sref{training}). However, unlike training and
 validation, the error is calculated in a more elaborate way as follows.
 
-First, recall that our objective is making long-range predictions of resource
+Recall first that our objective is making long-range predictions of resource
 usage (see \sref{problem}). Note also that, in \sref{training} and
 \sref{validation}, we are only concerned with what happens one time step ahead.
 The reason is that we would like to have as high of a throughput as possible
@@ -100,7 +100,7 @@ In order to compute long-rage predictions, we use refeeding: at time step $k$,
 the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if it was the
 actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not yet known at
 step $k$. The process continues until all the desired $h$ future values are
-estimated. It is natural to expect that the more accurate one-step-ahead
+estimated. It is natural to expect that the more accurate the one-step-ahead
 prediction is, the more accurate the multiple-step-ahead one will be.
 
 There is more to it. Consider how a trained model will be used in practice.
@@ -108,13 +108,11 @@ Potentially at each step $k$, one might want to predict the next $h$ values of
 the resource usage of task $i$, that is, $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k
 + h}$. Therefore, in order to test the model properly, we have to sweep over all
 the time steps of the trace in question while making $h$ predictions at each
-step.
-
-An important aspect to note here is that the state of the model's memory should
-be saved before computing $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k + h}$ at step
-$k$ and restored before feeding $x_{i,k + 1}$ in order to advance to step $k +
-1$. The memory gets ``contaminated'' by feeding predictions instead of
-observations.
+step. An important aspect to note here is that the state of the model's memory
+should be saved before computing $\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k + h}$
+at step $k$ and restored before feeding $x_{i,k + 1}$ in order to advance to
+step $k + 1$. The memory becomes contaminated when one feeds predictions instead
+of observations into the model.
 
 It can be seen in the presentation above that testing is a rather elaborate
 operation involving sequential computations.

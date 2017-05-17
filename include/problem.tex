@@ -15,12 +15,13 @@ length of the sequence. Such a sequence is called fine-grained data as it
 contains multiple measurements over the execution of the task as opposed to
 having only one aggregative measurement such as the average or maximum value.
 
-Suppose that the current time relative to task $i$ is $t_{ik}$. This means that
-$x_{i0}, \dots, x_{ik}$ are known. Given these previous values of the trace, our
-goal is to estimate its next $h$ values denoted by $\hat{x}_{i,k + 1}, \dots,
-\hat{x}_{i,k + h}$. Such an estimation is called a long-range prediction as it
-provides multiple future values as opposed to only one. This operation is to be
-performed for each active task of interest at any time moment of interest.
+Suppose further that the current time relative to task $i$ is $t_{ik}$. This
+means that $x_{i0}, \dots, x_{ik}$ are known. Given these previous values of the
+trace, our goal is to estimate its next $h$ values denoted by $\hat{x}_{i,k +
+1}, \dots, \hat{x}_{i,k + h}$. Such an estimation is called a long-range
+prediction as it provides multiple future values as opposed to only one. This
+operation is to be performed for each active task of interest at any time moment
+of interest.
 
 In order to attain the objective, we reside to learning from historical data.
 Specifically, it is first assumed that there is a data set of resource-usage
