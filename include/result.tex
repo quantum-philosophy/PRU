@@ -90,7 +90,7 @@ at each step of the testing traces in $X_3$. In these experiments, we predict
 four steps into the future ($h = 4$ in \sref{problem}). This elaborate
 sequential testing procedure takes around 15 hours from start to finish.
 
-In order to evaluate better the accuracy of our resource-usage predictions, we
+In order to assess better the accuracy of our resource-usage predictions, we
 employ an alternative model, which we shall refer to as the reference model. The
 reference model is based on random walk. It postulates that the best prediction
 of what will happen tomorrow is what happens today: the next value of a
@@ -98,12 +98,11 @@ resource-usage trace is estimated to be the current one, which results in four
 identical predictions at each time step.
 
 The results of the testing stage can be seen in \fref{testing}, which shows the
-\up{MSE} of our best trained model (the blue line) as well as the one of the
-reference model (the red line) with respect to $X_3$. The magnitude of our
-model's errors suggests that the amount of regularity present in the data is not
-sufficient to make the resource-usage predictions highly accurate. Nevertheless,
-it can be seen in \fref{testing} that, relative to the reference model, our
-model provides an error reduction of approximately 30\% at each of the four
-future time moments. This observation suggests that a certain structure does
-exist, and that it can be identified and utilized in order to make educated
-predictions.
+\up{MSE} of our model (the blue line) as well as the one of the reference model
+(the red line) with respect to $X_3$. The magnitude of our model's errors
+suggests that the amount of regularity present in the data is not sufficient to
+make the resource-usage predictions highly accurate. Nevertheless, it can be
+seen in \fref{testing} that, relative to the reference model, our model provides
+an error reduction of approximately 30\% at each of the four future time
+moments. This observation indicates that a certain structure does exist, and
+that it can be identified and utilized in order to make educated predictions.
