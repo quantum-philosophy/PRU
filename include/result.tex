@@ -75,7 +75,7 @@ rest require a different scale and would render the figure illegible. Note also
 how Hyperband operates: some of the sampled configurations are explored only
 partially since they are regarded as less promising. The best trained model is
 found to have the following hyperparameters: $c = 4$, $u = 1600$, and $p = 0$.
-However, one can observe in \fref{validation} that there are several other
+However, one can also observe in \fref{validation} that there are several other
 candidates that are close to the best one. All these configurations correspond
 to deeper and wider architectures, that is, to those that have more cells and
 more units per cell (see \fref{model}). Finally, it is worth noting that the
@@ -91,7 +91,7 @@ four steps into the future ($h = 4$ in \sref{problem}). This elaborate
 sequential testing procedure takes around 15 hours from start to finish.
 
 In order to evaluate better the accuracy of our resource-usage predictions, we
-use an alternative model, which we shall refer to as the reference model. The
+employ an alternative model, which we shall refer to as the reference model. The
 reference model is based on random walk. It postulates that the best prediction
 of what will happen tomorrow is what happens today: the next value of a
 resource-usage trace is estimated to be the current one, which results in four
@@ -101,9 +101,9 @@ The results of the testing stage can be seen in \fref{testing}, which shows the
 \up{MSE} of our best trained model (the blue line) as well as the one of the
 reference model (the red line) with respect to $X_3$. The magnitude of our
 model's errors suggests that the amount of regularity present in the data is not
-sufficient to make the resource-usage predictions extremely accurate.
-Nevertheless, it can be seen in \fref{testing} that, relative to the reference
-model, our model provides an error reduction of approximately 30\% at each of
-the four future time moments. This observation suggests that a certain structure
-does exist, and that it can be identified and utilized in order to make educated
+sufficient to make the resource-usage predictions highly accurate. Nevertheless,
+it can be seen in \fref{testing} that, relative to the reference model, our
+model provides an error reduction of approximately 30\% at each of the four
+future time moments. This observation suggests that a certain structure does
+exist, and that it can be identified and utilized in order to make educated
 predictions.
