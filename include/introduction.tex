@@ -1,26 +1,32 @@
-\lettrine[findent=0.2em, nindent=0em]{\textbf{T}}{he field} of machine learning
-has recently received a great amount of due attention from both inside and
-outside of the field. This interest is chiefly ascribed to the renaissance in
-the development of artificial neural networks \cite{goodfellow2016}.
+\lettrine[findent=0.2em, nindent=0em]{\textbf{R}}{esource management} is of
+great importance. It is an activity that, if adequately executed, enables one to
+exploit optimally the full potential of the computer system at hand. However,
+there is typically very little control over the production environment. In
+particular, the actual workload that the system will have to process at runtime
+is rarely known in advance. Therefore, efficient resource management is a
+difficult task, which has to cope with such inevitable uncertainty.
 
-Neural networks seemingly effortlessly superseded the back-then state-of-the-art
-techniques for modeling the structure of given data and subsequently
-characterizing unseen, predicting future, and generating similar data points.
-Due to their flexibility and scalability, neural networks have become a strong
-catalyst for the development of other disciplines such as computer vision,
-speech recognition, and natural language processing.
+Uncertainty can be mitigated by predicting the future and acting accordingly,
+which is what proactive resource managers thrive on. However, accurate
+prediction is not an easy task either. Modern, complex environments require
+elaborate forecasting tools, which usually originate from machine learning
+\cite{hastie2009}. Machine learning has recently received a great amount of due
+attention due the renaissance in neural networks \cite{goodfellow2016}. They
+seemingly effortlessly superseded the back-then state-of-the-art techniques for
+data modeling subsequently prediction.
 
-The design of computer systems has also seen a number of applications of neural
-networks; we shall touch upon some of them in \sref{literature}. The research in
-this direction, however, has been limited. In particular, only primitive
+Neural networks are a highly promising assistant for resource management. In
+fact, resource management has seen a number of applications of neural networks;
+we shall touch upon some of them in \sref{literature}. The research in this
+direction, however, has been limited. In particular, only primitive
 architectures of neural networks have been considered, and they have been
 applied to relatively simple problems. This state of affairs is unfortunate
-provided that the machinery of the cutting-edge neural networks has been nearly
+provided that the machinery of modern neural networks has been nearly
 revolutionary in other disciplines.
 
 We feel strongly that more research should be conducted in order to investigate
 the aid that the recent advancements in machine learning can give to the design
-of computer systems. In this paper, we set out to conduct one such body of
+of resource managers. In this paper, we set out to conduct one such body of
 research. More specifically, we study the resource usage in a computer cluster
 and aim to predict this usage multiple steps ahead at the level of individual
 tasks executed in the cluster, and, to this end, we intend to use recurrent
