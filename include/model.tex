@@ -47,11 +47,11 @@ The output of the last cell is typically a large tensor, which is proportional
 in size to the number of units in the cell. Each entry of such a tensor can be
 considered as a feature that the network has extracted and activated in
 accordance with the trace that is currently being fed into the model. The task
-now is combine these features in order to produce a single prediction. To this
-end, we mount a regression layer on top of the last cell, which is depicted by a
-red box in \fref{model}. Unlike the recurrent layers described in
-\sref{recurrent}, which features highly nonlinear transformations, this layer
-performs an affine transformation.
+now is to combine these features in order to produce a single prediction. To
+this end, we mount a regression layer on top of the last cell, which is depicted
+by a red box in \fref{model}. Unlike the recurrent layers in \sref{recurrent},
+which feature highly nonlinear transformations, this layer performs an affine
+transformation.
 
 To summarize, we have described a predictive model that is composed of a number
 of \up{LSTM} cells and a linear regression layer. Due to its internal memory,
