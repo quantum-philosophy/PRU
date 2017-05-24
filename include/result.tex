@@ -25,12 +25,10 @@ SQLite provides a convenient way for working with the data. Moreover, since
 these operations have to be done only once, their computational cost can be
 safely considered negligible.
 
-\input{include/assets/figures/traces}
 Regarding the selection stage delineated in \sref{selection}, we filter those
-traces that contain 5--50 data points; thus, $l_i \in [5, 50]$ in \eref{trace}.
-It can be seen in \fref{traces}, which shows a histogram of the traces' lengths,
-that such traces constitute around 74\% of the total number of traces (around 18
-out of 24 million).
+traces that contain 5--50 data points; consequently, $l_i \in [5, 50]$ in
+\eref{trace}. Such traces constitute around 74\% of the total number of traces
+(around 18 out of 24 million).
 
 We experiment with a subset of two million random traces, which is around 11\%
 of the 5--50 resource-usage traces; hence, $n = 2 \times 10^6$ in \eref{traces}.
@@ -40,10 +38,10 @@ four hours. Recall that this operation has to be repeated only when the
 selection criteria change, which happens rarely in practice.
 
 \subsection{Modeling and Prediction}
-The training stage (\sref{training}) is configured as follows. Based on
-\fref{traces}, 10 buckets are used according to the rule: $l < 6 < 7 < 8 < 9 <
-10 < 15 < 20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The
-optimization algorithm employed for minimizing of the loss function is Adam
+The training stage (\sref{training}) is configured as follows. Ten buckets or
+queues are used according to the following rule: $l < 6 < 7 < 8 < 9 < 10 < 15 <
+20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The optimization
+algorithm employed for minimizing of the loss function is Adam
 \cite{kingma2014}, which is an adaptive technique. The algorithm is utilized
 with its default settings recommended by the algorithm's authors.
 
