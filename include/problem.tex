@@ -15,28 +15,29 @@ length of the sequence. Such a sequence is called fine-grained data as it
 contains multiple measurements over the execution of the task as opposed to
 having only one aggregative measurement such as the average or maximum value.
 
-Suppose further that the current time relative to task $i$ is $t_{ik}$. This
-means that $x_{i0}, \dots, x_{ik}$ are known. Given these previous values of the
-trace, our goal is to estimate its next $h$ values denoted by $\hat{x}_{i,k +
-1}, \dots, \hat{x}_{i,k + h}$. Such an estimation is called a long-range
-prediction as it provides multiple future values as opposed to only one. This
-operation is to be performed for each active task of interest at any time moment
-of interest.
+Suppose further that the current time is $t_{ik}$. This means that $x_{i0},
+\dots, x_{ik}$ of task $i$ are known. Given these previous values of the trace,
+our goal is to estimate its next $h$ values, which we shall denote by
+$\hat{x}_{i,k + 1}, \dots, \hat{x}_{i,k + h}$. Such an estimation is called a
+long-range prediction as it provides multiple future values as opposed to only
+one. This operation is to be performed for each active task of interest at any
+time moment of interest.
 
 In order to attain the objective, we reside to learning from historical data.
 Specifically, it is first assumed that there is a data set of resource-usage
-traces available, and that these past traces are representative of the future
-ones:
+traces available, and that these past resource-usage traces are representative
+of the future ones:
 \begin{equation} \elab{traces}
   X = \{ x_i: i = 0, \dots, n - 1 \}
 \end{equation}
 where $n$ is the total number of traces, and $x_i$ is as in \eref{trace}. We
-then apply machine learning to the data in order to construct an adequate model
-and make predictions. We specifically aim at investigating the utility of the
-state-of-the-art in machine learning; to this end, we use recurrent neural
-networks \cite{goodfellow2016}.
+apply machine learning to the data in order to construct an adequate model
+offline, and this model is then used in order to make predictions at runtime. We
+specifically aim at investigating the utility of the state-of-the-art in machine
+learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
 
 Lastly, in order for learning to be possible, the fine-grained resource-usage
 traces that we consider have to have a certain structure (not purely random),
-which could be extracted and used for intelligent prediction. Investigating the
-presence of such a structure is part of our objective in this work.
+which could be extracted and used for intelligent prediction. An important
+question is whether real-life traces of this kind, at all, exhibit such a
+structure. Investigating this question is part of our objective in this work.
