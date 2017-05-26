@@ -14,9 +14,9 @@ which we shall specify shortly. There are two aspects to be discussed first.
 
 \input{include/assets/figures/unroll}
 The first concerns the way a single resource-usage trace is fed into the model.
-To begin with, the internal memory is nullified before each usage (feeding a
-trace). Next, note that a trace has multiple data points ($l_i > 1$), and that
-two traces are likely to have different lengths ($l_i \neq l_j$) since the
+To begin with, the internal memory is nullified before feeding a trace. Next,
+note that a trace, as in \eref{trace}, has multiple data points ($l_i > 1$), and
+that two traces are likely to have different lengths ($l_i \neq l_j$) since the
 execution times of two tasks are likely to differ. With this in mind, all the
 points of a trace are fed in one pass using a technique called dynamic
 unrolling. An illustration for $l_i = 4$ is given in \fref{unroll}, in which the
