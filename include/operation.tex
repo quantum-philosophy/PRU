@@ -20,12 +20,12 @@ two traces are likely to have different lengths ($l_i \neq l_j$) since the
 execution times of two tasks are likely to differ. With this in mind, all the
 points of a trace are fed in one pass using a technique called dynamic
 unrolling. An illustration for $l_i = 4$ is given in \fref{unroll}, in which the
-representation in \fref{model} has been simplified even further and put on a
-side. It can be seen that the model has been replicated as many times as there
-are data points in the trace. However, it is still the same model, and all the
-replicas share the same parameters and internal memory. It can also be seen in
-\fref{unroll} how information flows from one time step to the next, which is
-what makes the model recurrent.
+representation in \fref{model} has been simplified even further and rotated
+$90^\circ$ counterclockwise. It can be seen that the model has been replicated
+as many times as there are data points in the trace. However, it is still the
+same model, and all the replicas share the same parameters and internal memory.
+It can also be seen in \fref{unroll} how information flows from one time step to
+the next, which is what makes the model recurrent.
 
 Now, it is not efficient to feed only one trace at a time due to the inevitable
 overhead imposed by the computations involved. Therefore, these computations
@@ -84,9 +84,10 @@ respect to $X_2$ is the generalization error of the model because the selection
 was biased (we deliberately chose the one that performed the best on $X_2$).
 
 In order to have an unbiased evaluation, the testing set $X_3$ is utilized. As
-it is with training and validation, the \up{MSE} is considered, and it is
-encouraged to use bucketing (see \sref{training}). However, unlike training and
-validation, the error is calculated in a more elaborate way as follows.
+it is with training and validation, the \up{MSE} is considered as a quality
+metric, and the bucketing mechanism is used (see \sref{training}). However,
+unlike training and validation, the error is calculated in a more elaborate way
+as follows.
 
 Recall first that our objective is making long-range predictions of resource
 usage (see \sref{problem}). Note also that, in \sref{training} and
