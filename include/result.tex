@@ -4,10 +4,10 @@ TensorFlow \cite{abadi2015}, which is an efficient, flexible, and highly
 scalable machine-learning library supported by all the major platforms including
 the mobile ones.
 
-The experiments are conducted on a \up{GNU}/Linux machine equipped with 16
-\up{CPU}s Intel Xeon \up{E5520} 2.27~GHz, 24~\up{GB} of \up{RAM}, and an
-\up{HDD}. The machine has no modern \up{GPU}s; therefore, the reported results
-have an immense room for improvement, which concerns not only timing but
+The experiments are conducted on a \up{GNU}/Linux machine equipped with 8
+\up{CPU}s Intel Core i7-3770 3.4~GHz, 16~\up{GB} of \up{RAM}, and an \up{HDD} of
+500~\up{GB}. The machine has no modern \up{GPU}s; therefore, the reported
+results have an immense room for improvement, which concerns not only timing but
 potentially accuracy as well due to more extensive training.
 
 \subsection{Data Processing}
@@ -49,16 +49,16 @@ Regarding the validation stage (\sref{validation}), the considered
 hyperparameters are the number of cells $c$ (the blue boxes in \fref{model}),
 number of units per cell $u$ (the double circles in \fref{model}), and
 probability of dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$,
-$u \in \{100, 200, 400, 800, 1600\}$, and $p \in \{0, 0.1\}$, which yields 50
-different combinations in total. The candidates are explored by means of the
+$u \in \{100, 200, 400, 800, 1600\}$, and $p \in \{0, 0.25, 0.5\}$, which yields
+75 different combinations in total. The candidates are explored by means of the
 Hyperband algorithm, which is introduced in \sref{validation}, with its default
-settings. The maximum budget for one configuration is set to two training
-epochs, which correspond to $2 \times 0.7 \times 2 \times 10^6 = 2.8 \times
-10^6$ traces or $2.8 \times 10^6 \div 64 = 43\,750$ training steps.
+settings. The maximum budget for one configuration is set to four training
+epochs, which correspond to $4 \times 0.7 \times 2 \times 10^6 = 5.6 \times
+10^6$ traces or $5.6 \times 10^6 \div 64 = 87\,500$ training steps.
 
 The above-mentioned exploration, which encompasses both the training and
-validation stages, takes around 134 hours or 5--6 days. During this process, we
-run up to 8 learning sessions in parallel, which typically keeps all 16
+validation stages, takes around 260 hours or 10--11 days. During this process,
+we run up to four learning sessions in parallel, which typically keeps all eight
 \up{CPU}s busy. It should be noted that, due to the fact that the training,
 validation, and testing data have been cached on disk as a result of our
 data-processing pipeline described in \sref{data}, individual learning sessions

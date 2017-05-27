@@ -4,31 +4,36 @@ to exploit optimally the full potential of the computer system at hand. However,
 there is typically very little control over the production environment. In
 particular, the actual workload that the system will have to process at runtime
 is rarely known in advance. Therefore, efficient resource management is a
-challenging task, which has to cope with inherent uncertainty.
+difficult task, which has to cope with inherent uncertainty.
 
 Uncertainty can be mitigated by predicting the future and acting accordingly,
-which is what proactive resource managers thrive on. However, accurate
-prediction is not an easy task either. Modern resource managers require
-elaborate forecasting mechanisms, which traditionally originate from the field
-of machine learning \cite{hastie2009}. Machine learning has recently received a
-great amount of due attention due the renaissance in neural networks
-\cite{goodfellow2016}. Neural networks seemingly effortlessly superseded the
-back-then state-of-the-art techniques for modeling and prediction, and now they
-constitute a highly promising assistant for resource management. In fact,
-resource management has seen a number of applications of neural networks, some
-of which we shall touch upon in \sref{literature}. However, the research in this
-direction has been limited. In particular, only primitive architectures of
-neural networks have been considered, and they have been applied to relatively
-simple problems. This state of affairs is unfortunate provided that the
-machinery of neural networks has been nearly revolutionary in other disciplines.
+which is what proactive resource managers thrive on. However, accurate and
+useful prediction is not an easy task either. Modern computer systems are
+elaborate, and their resource managers require elaborate forecasting mechanisms.
 
-We feel strongly that more research should be conducted in order to investigate
-the aid that the recent advancements in machine learning can give to the design
-of resource managers. In this paper, we set out to conduct one such body of
-research. More specifically, we study the resource usage in a computer cluster
-and aim to predict this usage multiple steps ahead at the level of individual
-tasks executed in the cluster, and, to this end, we intend to use recurrent
-neural networks \cite{goodfellow2016}.
+Forecasting traditionally falls within the scope of machine learning
+\cite{hastie2009}. Machine learning has recently received a great amount of due
+attention due the renaissance in neural networks \cite{goodfellow2016}, which
+seemingly effortlessly superseded the back-then state-of-the-art techniques for
+modeling and prediction.
+
+We argue that modern neural networks constitute a highly promising assistant for
+resource management. In fact, resource management has already seen a number of
+applications of neural networks, which we shall touch upon in \sref{literature}.
+However, the research in this direction has been limited. In particular, only
+primitive architectures of neural networks have been considered, and they have
+been applied to relatively simple problems. This state of affairs is unfortunate
+provided that neural networks have been nearly revolutionary in other
+disciplines. Therefore, we feel strongly that more research should be conducted
+in order to investigate the aid that the recent advancements in machine learning
+can give to the design of resource managers.
+
+In this paper, we set out to conduct one such body of research. More
+specifically, we study the resource usage in a large computer cluster and aim to
+predict this usage multiple steps ahead at the level of individual tasks
+executed in the cluster. This detailed and foresighted information can be of
+help to resource managers; however, it is challenging to obtain. To this end, we
+intend to use recurrent neural networks \cite{goodfellow2016}.
 
 The remainder of the paper is organized as follows. Section~\ref{sec:literature}
 provides an overview of the prior work. Our contributions are summarized in
