@@ -36,17 +36,19 @@ offline, and this model is then used in order to make predictions at runtime. We
 specifically aim at investigating the utility of the state-of-the-art in machine
 learning; to this end, we use recurrent neural networks \cite{goodfellow2016}.
 
-Lastly, in order for learning to be possible, the fine-grained resource-usage
-traces that we consider have to have a certain structure (not purely random),
-which could be extracted and used for intelligent prediction. An important
-question is whether real-life traces of this kind, at all, exhibit such a
-structure. Investigating this question is part of our objective in this work.
+It should be well understood that, in order for learning to be possible, the
+resource-usage traces that we consider have to have a certain structure, which
+can be extracted and used for intelligent prediction. An important question is
+whether real-life traces of this kind, at all, exhibit such a structure.
+Investigating this question is part of our objective in this work.
 
-Let us now describe in brief our workflow, which is illustrated in
-\fref{overview}. Given raw resource-usage data, we first (pre)process the data
-in order to make them suitable for the subsequent operations. This part is
-explained in \sref{data}, and is corresponds to the three boxes on the left in
-\fref{overview}. The processed data are then used to train a model a number of
-times with different configurations and select the best one. The modeling is
-explained in \sref{model} while the learning in \sref{learning}. The latter
-corresponds to the three boxes on the right in \fref{overview}.
+Let us now adumbrate our solution workflow, which is illustrated in
+\fref{workflow}. Given raw resource-usage traces, we first (pre)process them in
+order to make these data suitable for the subsequent computations. This part is
+explained in the next section and can be seen on the left of \fref{workflow}.
+The processed traces are then used in order to obtain an adequately trained
+predictive model. The modeling part is covered in \sref{model} while the
+learning one in \sref{learning}; the latter can also be seen on the right of
+\fref{workflow}. The above operations are to be undertaken offline while the
+obtained model is supposed to be used by the resource manager of the computer
+system at hand at runtime.
