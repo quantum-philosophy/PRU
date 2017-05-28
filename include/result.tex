@@ -61,17 +61,16 @@ and testing data have been cached on disk as a result of our data-processing
 pipeline described in \sref{data}, individual training sessions do not have any
 overhead in this regard.
 
-\input{include/assets/figures/validation}
 \input{include/assets/tables/validation}
-The results of the validation stage are depicted in \fref{validation}, which
-shows the mean squared error (\up{MSE}) of different configurations of the
+The results of the validation stage are given in \tref{validation}, which shows
+the mean squared error (\up{MSE}) of different configurations of the
 hyperparameters as measured using $X_2$ ($0.1 \times 2 \times 10^6 = 2 \times
 10^5$ traces). Note that only a subset of the candidates are shown since the
 rest require a different scale and would render the figure illegible. Note also
 how Hyperband operates: some of the sampled configurations are explored only
 partially since they are regarded as less promising. The best trained model is
 found to have the following hyperparameters: $c = 4$, $u = 1600$, and $p = 0$.
-However, one can also observe in \fref{validation} that there are several other
+However, one can also observe in \tref{validation} that there are several other
 candidates that are close to the best one. All these configurations correspond
 to deeper and wider architectures, that is, to those that have more cells and
 more units per cell (see \fref{model}). Finally, it is worth noting that the
