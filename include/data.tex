@@ -13,37 +13,26 @@ usage of the executed tasks with the granularity of five minutes. Each record
 corresponds to a specific task and a specific five-minute interval, and it
 provides such measurements as the average and maximum values of the \up{CPU},
 memory, and disk usage. There are more than 1.2 billion records, which
-correspond to more than 24 million tasks or resource-usage traces and to more
-than 670 thousand jobs.
+correspond to more than 24 million tasks or, equivalently, resource-usage traces
+and to more than 670 thousand jobs.
 
 The resource-usage table is provided in the form of 500 archives. Each archive
 contains a single \up{CSV} file with measurements over a certain time window.
-Such a format is inconvenient and inefficient to work with. In particular, in
-order to find all the data points that belong to a particular task, one has to
-search in all the archives in general. Such a querying strategy is not practical
-as reading data is a key operation, which has to be undertaken a myriad of times
-during a training session. The situation is exacerbated further when multiple
-training sessions are to be performed, which is the most common scenario in
-practice. To conclude, an efficient data-processing pipeline is needed, which is
-what we develop in this section.
+Such a format is inconvenient and inefficient to work with, which is what we
+address in this section. Consider now the three leftmost boxes in
+\fref{workflow}.
 
 \subsection{Grouping} \slab{grouping}
 At the first stage, the \up{CSV} data from the 500 archives are distributed into
-separate \up{CSV} files so that each such file contains all the data points that
-belong to a particular job, resulting in as many \up{CSV} files as there are
-jobs. In order to reduce the space requirements, only the used columns of the
-table are preserved. In our experiments, these columns are the start time stamp,
-job \up{ID}, task \up{ID}, and average \up{CPU} utilization.
-
-Each \up{CSV} file is created and populated in one of a number of folders in
-order to reduce the burden on the file system and to have a better organization
-in general. To this end, we compute the \up{MD5} hash of the job and task
-\up{ID}s and use its first letters as the name of the destination folder.
-
-Finally, the \up{CSV} files are converted into SQLite databases in order to have
-the \up{SQL} language at our disposal for querying the data. In particular, one
-has to be able to select only those data points that belong to a particular
-task, and the resulting data points have to be ordered chronologically.
+separate \up{SQLite} databases so that each such database contains all the data
+points that belong to a particular job, resulting in as many databases as there
+are jobs. Each \up{SQLite} database is created and populated in one of a number
+of directories in order to reduce the burden on the file system and to have a
+better organization in general. To this end, we compute the \up{MD5} hash of the
+job \up{ID} and task \up{ID} and use its first letters as the name of the
+destination directory. In order to reduce the space requirements, only the used
+columns of the table are preserved. In our experiments, these columns are the
+start time stamp, job \up{ID}, task \up{ID}, and average \up{CPU} usage.
 
 \subsection{Indexing} \slab{indexing}
 At the second stage, an index of the traces is created in order to be able to
@@ -53,47 +42,38 @@ important of which are the task ID and the path to the corresponding SQLite
 database. We also include the length of the trace in question into the index in
 order to be able to efficiently filter the traces by their lengths at a later
 stage. The format of the index has been chosen to be \up{CSV}, which is
-sufficient in this case, but it can be turned into SQLite if one wishes to store
-and subsequently queried more sophisticated metadata than ours.
+sufficient in this case.
 
 \subsection{Selection} \slab{selection}
-At the last stage of the pipeline, a subset of the resource-usage traces is
-selected using the index, created at the previous stage, according to the needs
-of a particular training session and then stored on disk. Let us elaborate on
-this now.
-
-First of all, the traces that are too short or too long are filtered out. The
-upper bound discards abnormally long traces, which constitute a negligibly small
-portion of the data, while the lower one ensures that there is a sufficient
-number of data points for the subsequent experimentation.
-
-Secondly, we typically work with a random subset of the filtered resource-usage
-traces (as described in the above paragraph), which is usually one or two
-million traces. By doing so, we obtain shorter development cycles and,
-therefore, can iterate on modeling ideas faster. It also makes it possible to
-work with the data set on a single machine with commodity hardware, which is
-what we have at our disposal.
+At the last stage of our pipeline, a subset of the resource-usage traces is
+selected using the index according to the needs of a particular training session
+and then stored on disk. First, the traces that are too short or too long are
+filtered out. The upper bound discards abnormally long traces, which constitute
+a negligibly small portion of the data, while the lower one ensures that there
+is a sufficient number of data points for the subsequent experimentation.
+Second, we typically work with a random subset of the filtered resource-usage
+traces. By doing so, we obtain shorter development cycles and, therefore, can
+iterate on modeling ideas faster. It also makes it possible to work with the
+data set on a single machine with commodity hardware, which is what we have at
+our disposal.
 
 Once the resource-usage traces that will actually be used during a training
-session are known, they are fetched from the corresponding databases and stored
-in the native format of the machine-learning library utilized; we shall refer to
-a file in such a format as a binary file. One binary file typically holds
-multiple records, which will then be read sequentially, one by one upon request
-without clogging memory. Instead of writing all the selected traces into one
-binary file, we distribute them across several files relying on \up{MD5} for
-deciding on the destination file in a similar way to the one described in
+session are known, they are fetched from the databases and stored in the native
+format of the machine-learning library utilized; we shall refer to a file in
+such a format as a binary file. One binary file typically holds multiple
+records, which will then be read sequentially, one by one upon request without
+clogging memory. Instead of writing all the selected traces into one binary
+file, we distribute them across several files relying on \up{MD5} for deciding
+on the destination file in a similar way to the one described in
 \sref{grouping}. Such a catalog of binary files is created for each of the three
 commonly considered parts \cite{hastie2009} of the data at hand: one is for
-training, one for validation, and one for testing.
+training, one for validation, and one for testing; see also \fref{workflow}. We
+shall refer to these three parts as $X_1$, $X_2$, and $X_3$, respectively.
 
 Lastly, it is common practice to standardize data before feeding them into a
 machine-learning algorithm \cite{hastie2009}. In our case, it is done along with
 creating the aforementioned three catalogs, which requires a separate pass over
 the training set.
-
-All the selected and standardized resource-usage traces are denoted by $X$ (see
-\sref{problem}), and $X_1$, $X_2$, and $X_3$ will refer to the training,
-validation, and testing parts of $X$, respectively.
 
 In conclusion, the benefit of the above pipeline is in the streamlined access to
 the data during one or multiple training sessions. The binary files can be read

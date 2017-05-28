@@ -11,31 +11,28 @@ results have an immense room for improvement, which concerns not only timing but
 potentially accuracy as well due to more extensive training.
 
 \subsection{Data Processing}
-Recall that we work with the Google cluster-usage traces \cite{reiss2011}; see
-the introduction in \sref{data}. In the experiments, we focus on one particular
-resource ($d = 1$), which is the \up{CPU} usage of the tasks run in the cluster.
-The resource-usage table contains two apposite columns: the average and maximal
-CPU usage over five-minute intervals; we extract the former.
+Recall that the considered data set is the Google cluster-usage traces
+\cite{reiss2011} described in \sref{data}. In the experiments, we focus on one
+particular resource ($d = 1$), which is the \up{CPU} usage of the tasks executed
+in the cluster. The resource-usage table contains two apposite columns: the
+average and maximal CPU usage over five-minute intervals; we extract the former.
 
 The grouping and indexing steps of the data-processing pipeline described in
-\sref{grouping} and \sref{indexing}, respectively, take approximately 60 hours
-or 2--3 days (no parallelism). Most of this time is spent converting \up{CSV}
-into SQLite, which can be avoided by working with \up{CSV} directly. However,
-SQLite provides a convenient way for working with the data. Moreover, since
-these operations have to be done only once, their computational cost can be
-safely considered negligible.
+\sref{grouping} and \sref{indexing}, respectively, and depicted in
+\fref{workflow} take approximately 60 hours or 2--3 days (no parallelism). Since
+they have to be done only once, their computational cost can be safely
+considered negligible.
 
 Regarding the selection stage delineated in \sref{selection}, we filter those
-traces that contain 5--50 data points; consequently, $l_i \in [5, 50]$ in
-\eref{trace}. Such traces constitute around 74\% of the total number of traces
-(around 18 out of 24 million).
-
-We experiment with a subset of two million random traces, which is around 11\%
-of the 5--50 resource-usage traces; hence, $n = 2 \times 10^6$ in \eref{traces}.
-The data sets $X_1$, $X_2$, and $X_3$ constitute 70\%, 10\%, and 20\% of $X$,
-respectively. Fetching and storing on disk these many traces take approximately
-four hours. Recall that this operation has to be repeated only when the
-selection criteria change, which happens rarely in practice.
+resource-usage traces that contain 5--50 data points; consequently, $l_i \in [5,
+50]$ in \eref{trace}. Such traces constitute around 74\% of the total number of
+traces (around 18 out of 24 million). We experiment with a random subset of two
+million traces, which is around 11\% of the 5--50 resource-usage traces; hence,
+$n = 2 \times 10^6$ in \eref{traces}. The data sets $X_1$, $X_2$, and $X_3$
+constitute 70\%, 10\%, and 20\% of $X$, respectively. Fetching and storing on
+disk these many traces take approximately four hours. Recall that this operation
+has to be repeated only when the selection criteria change, which happens rarely
+in practice.
 
 \subsection{Modeling and Prediction}
 The training stage (\sref{training}) is configured as follows. Ten buckets or
