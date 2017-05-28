@@ -58,10 +58,10 @@ epochs, which correspond to $4 \times 0.7 \times 2 \times 10^6 = 5.6 \times
 
 The above-mentioned exploration, which encompasses both the training and
 validation stages, takes around 260 hours or 10--11 days. During this process,
-we run up to four learning sessions in parallel, which typically keeps all eight
+we run up to four training sessions in parallel, which typically keeps all eight
 \up{CPU}s busy. It should be noted that, due to the fact that the training,
 validation, and testing data have been cached on disk as a result of our
-data-processing pipeline described in \sref{data}, individual learning sessions
+data-processing pipeline described in \sref{data}, individual training sessions
 do not have any overhead in this regard.
 
 \input{include/assets/figures/validation}
