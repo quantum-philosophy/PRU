@@ -50,16 +50,15 @@ As it is the case with arguably all nontrivial machine-learning models, the one
 presented in \sref{model} has a number of hyperparameters. Examples include the
 number of cells $c$, number of units per cell $u$, and probability of dropout
 $p$, which are introduced in \sref{recurrent}. Unlike (ordinary) parameters,
-which are to be optimized during training (see \sref{training}), such
-hyperparameters are to be set prior to training, and they are typically kept
-unchanged thereafter. From the examples given, it is apparent that the impact of
-hyperparameters is profound. Therefore, they should be carefully configured.
+which are to be optimized during training (see \sref{training}), hyperparameters
+are to be set prior to training and kept unchanged thereafter. The impact of
+hyperparameters is profound; therefore, they should be carefully configured.
 
 The validation set $X_2$ is used to assess the performance of the model trained
-(using $X_1$ as usual) under different configurations of the model's
-hyperparameters. As before, the error metric is the \up{MSE}, and it is highly
+(using $X_1$ as usual) under different configurations of the hyperparameters of
+the model. As before, the error metric utilized is the \up{MSE}, and it is
 beneficial to perform these computations in batches. The trained model that has
-the best performance on $X_2$ is then chosen as the final one.
+the best performance on $X_2$ is then chosen as the one to be used.
 
 Despite all the techniques employed to speed up training, it is still an
 expensive operation. As a result, brute-force search in the space of
@@ -75,13 +74,14 @@ otherwise would be burnt in vain evaluating overtly inadequate configurations of
 hyperparameters. In this context, \emph{resources} refers a user-defined measure
 of how extensively a configuration is exercised. For instance, it can be the
 amount of wall-clock time spent or the number of training steps taken; in our
-experiments, we use the latter.
+experiments in \sref{result}, we use the latter.
 
 \subsection{Testing} \slab{testing}
 After a trained model has been selected during the validation stage, the model
 has to be assessed anew \cite{hastie2009}: one cannot aver that the error with
 respect to $X_2$ is the generalization error of the model because the selection
-was biased (we deliberately chose the one that performed the best on $X_2$).
+was biased (we deliberately chose the one that had the best performance on
+$X_2$).
 
 In order to have an unbiased evaluation, the testing set $X_3$ is utilized. As
 it is with training and validation, the \up{MSE} is considered as a quality
@@ -115,8 +115,7 @@ at step $k$ and restored before feeding $x_{i,k + 1}$ in order to advance to
 step $k + 1$. The memory becomes contaminated when one feeds predictions instead
 of observations into the model.
 
-It can be seen in the presentation above that testing is a rather elaborate
-operation involving sequential computations.
-
-At this point, the main aspects of our workflow have been discussed, and we move
-on to the experimental results.
+At this point, the main aspects of our workflow depicted in \fref{workflow} have
+been discussed. The output of the workflow is a model that has been trained on
+$X_1$, validated on $X_2$, and tested on $X_3$. We move on to the experimental
+results.
