@@ -34,15 +34,15 @@ disk these many traces take approximately four hours. Recall that this operation
 has to be repeated only when the selection criteria change, which happens rarely
 in practice.
 
-\subsection{Modeling and Prediction}
-The training stage (\sref{training}) is configured as follows. Ten buckets or
-queues are used according to the following rule: $l < 6 < 7 < 8 < 9 < 10 < 15 <
-20 < 30 < 40 \leq 50$. The batch size $b$ is set to 64. The optimization
-algorithm employed for minimizing of the loss function is Adam
-\cite{kingma2014}, which is an adaptive technique. The algorithm is utilized
-with its default settings recommended by the algorithm's authors.
+\subsection{Learning}
+The training stage (see \sref{training} and recall \fref{workflow}) is
+configured as follows. Ten buckets or, equivalently, queues are used according
+to the following rule: $l < 6 < 7 < 8 < 9 < 10 < 15 < 20 < 30 < 40 \leq 50$. The
+batch size $b$ is set to 64. The optimization algorithm that is employed for
+minimizing the loss function is Adam \cite{kingma2014}, which is an adaptive
+technique. The algorithm is utilized with its default settings.
 
-Regarding the validation stage (\sref{validation}), the considered
+Regarding the validation stage (see \sref{validation}), the considered
 hyperparameters are the number of cells $c$ (the blue boxes in \fref{model}),
 number of units per cell $u$ (the double circles in \fref{model}), and
 probability of dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$,
@@ -78,12 +78,13 @@ curves readily plateau, which suggests a limit to what can be extracted from the
 data with the model.
 
 After the exploration stage, the best trained model is taken to the testing
-stage (\sref{testing}), which is undertaken using $X_3$ ($0.2 \times 2 \times
-10^6 = 4 \times 10^5$ traces). At this stage, the model is extensively assessed
-by predicting the resource usage of individual tasks multiple time steps ahead
-at each step of the testing traces in $X_3$. In these experiments, we predict
-four steps into the future ($h = 4$ in \sref{problem}). This elaborate
-sequential testing procedure takes around 15 hours from start to finish.
+stage (see \sref{testing}), which is undertaken using $X_3$ ($0.2 \times 2
+\times 10^6 = 4 \times 10^5$ traces). At this stage, the model is extensively
+assessed by predicting the resource usage of individual tasks multiple time
+steps ahead at each step of the testing traces in $X_3$. In these experiments,
+we predict four steps into the future ($h = 4$ in \sref{problem}). This
+elaborate sequential testing procedure takes around 15 hours from start to
+finish.
 
 In order to assess better the accuracy of our resource-usage predictions, we
 employ an alternative model, which we shall refer to as the reference model. The
