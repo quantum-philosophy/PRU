@@ -35,7 +35,7 @@ tensor directly. In order to circumvent this problem, we reside to bucketing.
 Specifically, each read trace is put into one of many queues depending on its
 length. When a queue, accumulating traces of length from some $l'$ to $l''$, has
 collected the desired number of traces---denoted by $b$ and referred to as the
-batch size---it pads traces shorter than $l'$ with zeros and emits a tensor of
+batch size---it pads traces shorter than $l''$ with zeros and emits a tensor of
 size $b \times l'' \times d$ to be further consumed by the model.
 
 The loss function that we minimize during training is the mean squared error
