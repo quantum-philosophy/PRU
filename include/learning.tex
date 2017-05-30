@@ -47,12 +47,12 @@ assumed to be zero.
 
 \subsection{Validation} \slab{validation}
 As it is the case with arguably all nontrivial machine-learning models, the one
-presented in \sref{model} has a number of hyperparameters. Examples include the
+presented in \sref{model} has a number of hyperparameters. They include the
 number of cells $c$, number of units per cell $u$, and probability of dropout
-$p$, which are introduced in \sref{recurrent}. Unlike (ordinary) parameters,
-which are to be optimized during training (see \sref{training}), hyperparameters
-are to be set prior to training and kept unchanged thereafter. The impact of
-hyperparameters is profound; therefore, they should be carefully configured.
+$p$, which are introduced in \sref{recurrent}. Unlike ordinary parameters, which
+are to be optimized during training (see \sref{training}), the hyperparameters
+are to be set prior to training and kept unchanged thereafter. The impact of the
+hyperparameters is profound; therefore, they should be carefully selected.
 
 The validation set $X_2$ is used to assess the performance of the model trained
 (using $X_1$ as usual) under different configurations of the hyperparameters of
@@ -60,8 +60,8 @@ the model. As before, the error metric utilized is the \up{MSE}, and it is
 beneficial to perform these computations in batches. The trained model that has
 the best performance on $X_2$ is then chosen as the one to be used.
 
-Despite all the techniques employed to speed up training, it is still an
-expensive operation. As a result, brute-force search in the space of
+Despite all the techniques employed to speed up training, it is still a
+time-consuming operation. As a result, brute-force search in the space of
 hyperparameters for the best configuration is impractical; a certain intelligent
 strategy should be followed.
 
@@ -92,10 +92,10 @@ as follows.
 Recall first that our objective is making long-range predictions of resource
 usage (see \sref{problem}). Note also that, in \sref{training} and
 \sref{validation}, we are only concerned with what happens one time step ahead.
-The reason is that we would like to have as high of a throughput as possible
-since the training and validation operations are to be performed many times.
-Testing, however, is done only once, and it is during testing we make and assess
-multiple-step-ahead predictions.
+The reason is that we would like to have as high throughput as possible since
+the training and validation operations are to be performed many times. Testing,
+on the other hand, is done only once, and it is during testing we make and
+assess multiple-step-ahead predictions.
 
 In order to compute long-rage predictions, we use refeeding: at time step $k$,
 the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if it was the
