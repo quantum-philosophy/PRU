@@ -77,11 +77,11 @@ amount of wall-clock time spent or the number of training steps taken; in our
 experiments in \sref{result}, we use the latter.
 
 \subsection{Testing} \slab{testing}
-After a trained model has been selected during the validation stage, the model
-has to be assessed anew \cite{hastie2009}: one cannot aver that the error with
-respect to $X_2$ is the generalization error of the model because the selection
-was biased (we deliberately chose the one that had the best performance on
-$X_2$).
+After a trained model has been selected during the validation stage, it has to
+be assessed anew \cite{hastie2009}: one cannot aver that the error with respect
+to $X_2$ is a good estimate of the generalization error because the selection
+was biased (we deliberately chose the configuration that had the best
+performance on $X_2$).
 
 In order to have an unbiased evaluation, the testing set $X_3$ is utilized. As
 it is with training and validation, the \up{MSE} is considered as a quality
