@@ -61,19 +61,18 @@ The results of the validation stage are given in \tref{validation}, which shows
 the mean squared error (\up{MSE}) of the top 10 configurations of the
 hyperparameters as measured using $X_2$ ($0.1 \times 2 \times 10^6 = 2 \times
 10^5$ traces). The best trained model is found to have the following
-hyperparameters: $c = 3$, $u = 1600$, and $p = 0$. However, one can also observe
-in \tref{validation} that there are several other candidates that are very close
-to the best one. In general, deeper and wider architectures tend to outperform
-shallower and narrower ones (the depth and breadth are measured by $c$ and $u$,
-respectively), which is expected. We also would like to note that the \up{MSE}s
-tend to plateau as the number of training steps increases (not shown), which
-suggests a limit to what can be extracted from the data with the model.
+hyperparameters: $c = 3$, $u = 1600$, and $p = 0$. In general, deeper and wider
+architectures tend to outperform shallower and narrower ones (the depth and
+breadth are measured by $c$ and $u$, respectively), which is expected. In these
+experiments, the dropout mechanism does not have much impact on the resulting
+accuracy, which is likely due to the fact that the amount of data is enough for
+regularizing the model.
 
 \tref{validation} also shows an estimate of the memory required by each
 configuration, including the model's trainable parameters and internal state. It
 can be seen that, if the memory usage is a concern, one could trade a small
-decrease in accuracy for a considerable memory saving. For example, the zeroth
-best configuration requires 0\% less memory than the first one.
+decrease in accuracy for a considerable memory saving. For example, the fourth
+best configuration requires 75\% less memory than the first one.
 
 After the exploration stage, the best trained model is taken to the testing
 stage (see \sref{testing}), which is undertaken using $X_3$ ($0.2 \times 2
