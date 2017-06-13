@@ -40,8 +40,8 @@ be able to efficiently filter the traces by their lengths.
 \subsection{Selection} \slab{selection}
 At the last stage of our pipeline, a subset of the resource-usage traces is
 selected using the index according to the needs of a particular training session
-(to be discussed in \sref{result}) and then stored on disk. More concretely,
-they are fetched from the databases and stored in the native format of the
+(to be discussed in \sref{result}) and then stored on disk. Concretely, the
+traces are fetched from the databases and stored in the native format of the
 machine-learning library utilized; we shall refer to a file in such a format as
 a binary file. Instead of writing all the selected traces into one binary file,
 we distribute them across several files. Such a catalog of binary files is
