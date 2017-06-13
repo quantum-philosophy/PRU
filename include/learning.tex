@@ -100,9 +100,10 @@ assess multiple-step-ahead predictions.
 In order to compute long-rage predictions, we use refeeding: at time step $k$,
 the predicted value $\hat{x}_{i,k + 1}$ is fed into the model as if it was the
 actual resource usage $x_{i,k + 1}$ at step $k + 1$, which is not yet known at
-step $k$. The process continues until all the desired $h$ future values are
-estimated. It is natural to expect that the more accurate the one-step-ahead
-prediction is, the more accurate the multiple-step-ahead one will be.
+step $k$. It might be helpful to consider the example given in \fref{example}.
+The process continues until all the desired $h$ future values are estimated. It
+is natural to expect that the more accurate the one-step-ahead prediction is,
+the more accurate the multiple-step-ahead one will be.
 
 There is more to it. Consider how a trained model will be used in practice.
 Potentially at each step $k$, one might want to predict the next $h$ values of
