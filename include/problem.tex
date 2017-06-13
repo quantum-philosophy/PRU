@@ -1,4 +1,4 @@
-Consider a cluster of computers that is serving a stream of tasks which are
+Consider a cluster of machines that is serving a stream of tasks which are
 distributed across the cluster by a resource manager. Each task consumes certain
 resources during its execution; examples include the \up{CPU} and memory usage
 over time. The cluster has an adequate monitoring facility deployed so that the
@@ -16,13 +16,13 @@ contains multiple measurements over the execution of the task as opposed to
 having only one aggregative measurement such as the average or maximum value.
 
 Consider now task $i$ and suppose that the current time is $t_{ik}$; an
-illustration for $k = 3$ is given in \fref{example}. This means that $x_{i0},
-\dots, x_{ik}$ are known. Given these previous values, our goal is to estimate
-its next $h$ values, which we shall denote by $\hat{x}_{i,k + 1}, \dots,
-\hat{x}_{i,k + h}$; in \fref{example}, $h = 4$. Such an estimation is called a
-long-range prediction as it provides multiple future values as opposed to only
-one. This operation is to be performed for each active task of interest at any
-time moment of interest.
+illustration for $k \in \{2, 3, 4\}$ is given in \fref{example}. This means that
+$x_{i0}, \dots, x_{ik}$ are known. Given these previous values, our goal is to
+estimate its next $h$ values, which we shall denote by $\hat{x}_{i,k + 1},
+\dots, \hat{x}_{i,k + h}$; in \fref{example}, $h = 4$. Such an estimation is
+called a long-range prediction as it provides multiple future values as opposed
+to only one. This operation is to be performed for each active task of interest
+at any time moment of interest.
 
 In order to attain the objective, we reside to learning from historical data.
 Specifically, it is assumed first that there is a data set of resource-usage

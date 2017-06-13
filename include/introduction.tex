@@ -32,9 +32,25 @@ managers of computer systems.
 In this paper, we set out to conduct one such body of research. More
 specifically, we study the resource usage in a large computer cluster and aim to
 predict this usage multiple steps ahead at the level of individual tasks
-executed in the cluster. This detailed and foresighted information can be of
-great help to resource managers; however, it is challenging to obtain. To this
-end, we intend to use recurrent neural networks \cite{goodfellow2016}.
+executed in the cluster. To this end, we intend to use recurrent neural networks
+\cite{goodfellow2016}.
+
+Consider the example given in \fref{example} where the \up{CPU} usage of a task
+running on a machine in the cluster is depicted three times (the
+solid-red-to-solid-blue lines). The three cases correspond to three different
+time moments (the black dots) as viewed by the resource manager of the cluster.
+The solid red lines represent the history of the usage, which is known to the
+manager, while the solid blue lines represent the future usage, which is unknown
+to the manager. The latter is what we are to predict in this work for each task
+of interest and several steps ahead. In \fref{example}, our potential
+predictions up to four steps ahead are depicted by a set of dashed blue lines.
+
+Such detailed (with respect to individual tasks) and foresighted (multiple steps
+ahead) information about the future resource usage as the one depicted in
+\fref{example} can be of great help to the resource manager. For instance,
+knowing the future resource usage of the tasks currently executed in the
+cluster, the manager can more intelligently decide which of the cluster's
+machines the next incoming task should be delegated to.
 
 The remainder of the paper is organized as follows. Section~\ref{sec:literature}
 provides an overview of the prior work and summarizes our contribution. In
