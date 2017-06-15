@@ -37,12 +37,12 @@ batch size $b$ is set to 64. The optimization algorithm that is employed for
 minimizing the loss function is Adam \cite{kingma2014}, which is an adaptive
 technique. The algorithm is applied with its default settings.
 
-Regarding the validation stage (see \sref{validation}), the considered
-hyperparameters are the number of cells $c$ (the blue boxes in \fref{model}),
-number of units per cell $u$ (the double circles in \fref{model}), and
-probability of dropout $p$. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$,
-$u \in \{100, 200, 400, 800, 1600\}$, and $p \in \{0, 0.25, 0.5\}$, which yields
-75 different combinations in total. The candidates are explored by means of the
+Regarding the validation stage, the considered hyperparameters are the number of
+cells $c$ (the blue boxes in \fref{model}), number of units per cell $u$ (the
+double circles in \fref{model}), and probability of dropout $p$ as discussed in
+\sref{validation}. More concretely, we let $c \in \{1, 2, 3, 4, 5\}$, $u \in
+\{100, 200, 400, 800, 1600\}$, and $p \in \{0, 0.25, 0.5\}$, which yields 75
+different combinations in total. The candidates are explored by means of the
 Hyperband algorithm introduced in \sref{validation} with its default settings.
 The maximum budget for one configuration is set to four training epochs, which
 correspond to $4 \times 0.7 \times 2 \times 10^6 = 5.6 \times 10^6$
@@ -51,10 +51,10 @@ resource-usage traces or $5.6 \times 10^6 \div 64 = 87\,500$ training steps.
 The above exploration, which encompasses both the training and validation
 stages, takes approximately 15 days to finish. During this process, we run up to
 four training sessions in parallel, which typically keeps all the eight
-\up{CPU}s busy. It should be noted that, due to the fact that the training,
-validation, and testing data sets have been cached on disk as a result of our
-data-processing pipeline described in \sref{data}, individual training sessions
-do not have any overhead in this regard.
+\up{CPU}s busy. It should be noted that, since the training, validation, and
+testing data sets have been cached on disk as a result of our data-processing
+pipeline described in \sref{data}, individual training sessions do not have any
+overhead in this regard.
 
 \input{include/assets/tables/validation}
 The results of the validation stage are given in \tref{validation}, which shows
@@ -65,7 +65,7 @@ hyperparameters: $c = 3$, $u = 1600$, and $p = 0$. In general, deeper and wider
 architectures tend to outperform shallower and narrower ones (the depth and
 breadth are measured by $c$ and $u$, respectively), which is expected. In these
 experiments, the dropout mechanism does not have much impact on the resulting
-accuracy, which is likely due to the fact that the amount of data is enough for
+accuracy, which is likely due to the amount of data being enough for
 regularizing the model.
 
 \tref{validation} also shows an estimate of the memory required by each
@@ -83,12 +83,13 @@ we predict four steps into the future ($h = 4$ in \sref{problem}). This
 elaborate sequential testing procedure takes around 18 hours from start to
 finish.
 
-In order to assess better the accuracy of our model, we employ an alternative
-one, which we shall refer to as the reference model. The reference model is
-based on random walk. It postulates that the best prediction of what will happen
-tomorrow is what happens today: the next value of a resource-usage trace is
-estimated to be the current one. This strategy results in four identical
-predictions at each time step.
+In order to assess better the accuracy of our model, we employ also an
+alternative one, which we shall refer to as the reference model. The reference
+model is based on random walk. It postulates that the best prediction of what
+will happen tomorrow is what happens today plus an optional random offset, which
+we set to zero. In other words, the next value of a resource-usage trace is
+estimated to be the current one, which results in four identical predictions at
+each time step.
 
 The results of the testing stage can be seen in \fref{testing}, which shows the
 \up{MSE} of our model (the blue line) as well as the one of the reference model
