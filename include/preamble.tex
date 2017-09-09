@@ -7,9 +7,21 @@
 %
 % Formatting
 %
+\usepackage{balance}
 \usepackage{hyperref}
 \usepackage{lettrine}
 \usepackage{microtype}
+
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@maketitle}
+  {\addvspace{0.5\baselineskip}\egroup}
+  {\addvspace{-1\baselineskip}\egroup}
+  {}
+  {}
+\makeatother
+
+\linespread{0.985}
 
 \setlength{\abovedisplayskip}{4pt}
 \setlength{\belowdisplayskip}{4pt}
